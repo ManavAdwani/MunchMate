@@ -1,0 +1,409 @@
+/* Please ❤ this if you like it! */
+
+@import url("https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&subset=devanagari,latin-ext");
+
+/* #Navigation
+================================================== */
+
+.start-header {
+    opacity: 1;
+    transform: translateY(0);
+    padding: 20px 0;
+    box-shadow: 0 10px 30px 0 rgba(138, 155, 165, 0.15);
+    -webkit-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+.start-header.scroll-on {
+    box-shadow: 0 5px 10px 0 rgba(138, 155, 165, 0.15);
+    padding: 10px 0;
+    -webkit-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+.start-header.scroll-on .navbar-brand img {
+    height: 24px;
+    -webkit-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+.navigation-wrap {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    -webkit-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+.navbar {
+    padding: 0;
+}
+.navbar-brand img {
+    height: 28px;
+    width: auto;
+    display: block;
+    filter: brightness(10%);
+    -webkit-transition: all 0.3s ease-out;
+    transition: all 0.3s ease-out;
+}
+.navbar-toggler {
+    float: right;
+    border: none;
+    padding-right: 0;
+}
+.navbar-toggler:active,
+.navbar-toggler:focus {
+    outline: none;
+}
+.navbar-light .navbar-toggler-icon {
+    width: 24px;
+    height: 17px;
+    background-image: none;
+    position: relative;
+    border-bottom: 1px solid #000;
+    transition: all 300ms linear;
+}
+.navbar-light .navbar-toggler-icon:after,
+.navbar-light .navbar-toggler-icon:before {
+    width: 24px;
+    position: absolute;
+    height: 1px;
+    background-color: #000;
+    top: 0;
+    left: 0;
+    content: "";
+    z-index: 2;
+    transition: all 300ms linear;
+}
+.navbar-light .navbar-toggler-icon:after {
+    top: 8px;
+}
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon:after {
+    transform: rotate(45deg);
+}
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon:before {
+    transform: translateY(8px) rotate(-45deg);
+}
+.navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+    border-color: transparent;
+}
+.nav-link {
+    color: #212121 !important;
+    font-weight: 500;
+    transition: all 200ms linear;
+}
+.nav-item:hover .nav-link {
+    color: #8167a9 !important;
+}
+.nav-item.active .nav-link {
+    color: #777 !important;
+}
+.nav-link {
+    position: relative;
+    padding: 5px 0 !important;
+    display: inline-block;
+}
+.nav-item:after {
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    content: "";
+    background-color: #8167a9;
+    opacity: 0;
+    transition: all 200ms linear;
+}
+.nav-item:hover:after {
+    bottom: 0;
+    opacity: 1;
+}
+.nav-item.active:hover:after {
+    opacity: 0;
+}
+.nav-item {
+    position: relative;
+    transition: all 200ms linear;
+}
+
+/* #Media
+================================================== */
+
+@media (max-width: 767px) {
+    h1 {
+        font-size: 38px;
+    }
+    .nav-item:after {
+        display: none;
+    }
+    .nav-item::before {
+        position: absolute;
+        display: block;
+        top: 15px;
+        left: 0;
+        width: 11px;
+        height: 1px;
+        content: "";
+        border: none;
+        background-color: #000;
+        vertical-align: 0;
+    }
+    .dropdown-toggle::after {
+        position: absolute;
+        display: block;
+        top: 10px;
+        left: -23px;
+        width: 1px;
+        height: 11px;
+        content: "";
+        border: none;
+        background-color: #000;
+        vertical-align: 0;
+        transition: all 200ms linear;
+    }
+    .dropdown-toggle[aria-expanded="true"]::after {
+        transform: rotate(90deg);
+        opacity: 0;
+    }
+    .dropdown-menu {
+        padding: 0 !important;
+        background-color: transparent;
+        box-shadow: none;
+        transition: all 200ms linear;
+    }
+    .dropdown-toggle[aria-expanded="true"] + .dropdown-menu {
+        margin-top: 10px !important;
+        margin-bottom: 20px !important;
+    }
+    body.dark .nav-item::before {
+        background-color: #fff;
+    }
+    body.dark .dropdown-toggle::after {
+        background-color: #fff;
+    }
+    body.dark .dropdown-menu {
+        background-color: transparent;
+        box-shadow: none;
+    }
+}
+
+/* #Link to page
+================================================== */
+
+.logo {
+    position: absolute;
+    bottom: 30px;
+    right: 30px;
+    display: block;
+    z-index: 100;
+    transition: all 250ms linear;
+}
+.logo img {
+    height: 26px;
+    width: auto;
+    display: block;
+    filter: brightness(10%);
+    transition: all 250ms linear;
+}
+body.dark .logo img {
+    filter: brightness(100%);
+}
+
+/* Main INdex page */
+.offer1 {
+    /* margin-left: 20px; */
+    margin: 20px;
+}
+.offer1 img {
+    width: 350px;
+    height: 200px;
+    border-radius: 35px;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+        rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    cursor: pointer;
+}
+
+.offer2 {
+    margin: 20px;
+}
+
+.offer2 img {
+    width: 350px;
+    height: 200px;
+    border-radius: 35px;
+    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px,
+        rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    cursor: pointer;
+}
+
+.mainOffers {
+    display: flex;
+    overflow-x: scroll;
+}
+.mainOffers::-webkit-scrollbar {
+    display: none;
+}
+
+.mainMind {
+    display: flex;
+    overflow-x: scroll;
+    /* max-width: 90%; */
+}
+
+.inyourmind,
+.topchains-title,
+.bestrestaurant-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.inyourmind a,
+.topchains-title a,
+.bestrestaurant-title a {
+    color: #e4a11b;
+    font-weight: 600;
+    font-size: large;
+}
+
+.inyourmind a:hover,
+.topchains-title a:hover,
+.bestrestaurant-title a:hover {
+    color: #e4a11b;
+    text-decoration: underline;
+}
+
+.mainMind img {
+    width: 144px;
+    height: 180px;
+    cursor: pointer;
+}
+
+.mainMind::-webkit-scrollbar {
+    display: none;
+}
+
+.image img {
+    width: 270px;
+    height: 200px;
+    border-radius: 20px;
+}
+
+.title h5 {
+    font-weight: 400;
+    float: left;
+}
+
+.stars {
+    background-color: green;
+    width: 50px;
+    color: white;
+    align-items: center;
+    text-align: center;
+    float: right;
+    border-radius: 7px;
+    font-weight: bold;
+    /* gap: 20px; */
+}
+
+.first {
+    width: 270px;
+}
+
+.stars span {
+    font-size: 15px;
+    margin-top: 2px;
+}
+.parent-container {
+    width: 100%; /* Adjust the width as needed */
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+}
+
+.description {
+    width: 140px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 80%;
+}
+
+.priceforone {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    opacity: 80%;
+    float: right;
+    margin-left: 20px;
+}
+
+.time {
+    display: flex;
+    /* float: right; */
+    margin-top: 5px;
+    justify-content: space-between;
+}
+
+.ordernow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.ordernow button {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.chains {
+    display: flex;
+    gap: 50px;
+    overflow-x: scroll;
+}
+
+.chains::-webkit-scrollbar {
+    display: none;
+}
+
+.mainbestrestaurant {
+    display: flex;
+    gap: 50px;
+    /* flex-wrap: wrap; */
+    /* margin: -10px; */
+    overflow-x: scroll;
+}
+
+.chains::-webkit-scrollbar,
+.mainbestrestaurant::-webkit-scrollbar {
+    display: none;
+}
+
+.ogfirst {
+    width: 25%;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
+        rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    display: block;
+    border-radius: 30px;
+    background: rgb(226, 226, 227);
+}
+.firstimage img {
+    width: 100%;
+    margin-top: 30px;
+    border-radius: 0 0 30px 30px;
+}
+
+.ogfirst p {
+    /* margin-top: 50px; */
+    padding: 20px;
+    width: 250px;
+}
+
+.ogfirst h3 {
+    padding: 20px;
+    width: 250px;
+}
+.row-first {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 50px;
+    justify-content: center;
+    align-items: center;
+}
