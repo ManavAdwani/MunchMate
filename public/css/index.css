@@ -374,36 +374,115 @@ body.dark .logo img {
 .mainbestrestaurant::-webkit-scrollbar {
     display: none;
 }
-
-.ogfirst {
-    width: 25%;
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px,
-        rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-    display: block;
-    border-radius: 30px;
-    background: rgb(226, 226, 227);
-}
 .firstimage img {
     width: 100%;
     margin-top: 30px;
-    border-radius: 0 0 30px 30px;
+    border-radius: 30px;
 }
-
-.ogfirst p {
-    /* margin-top: 50px; */
-    padding: 20px;
-    width: 250px;
-}
-
-.ogfirst h3 {
-    padding: 20px;
-    width: 250px;
-}
-.row-first {
+.containers {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
-    gap: 50px;
-    justify-content: center;
-    align-items: center;
+    justify-content: space-between;
+}
+.cards {
+    height: 500px;
+    display: flex;
+    padding: 1rem;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+@media (min-width: 40rem) {
+    .cards {
+        width: 50%;
+    }
+}
+@media (min-width: 56rem) {
+    .cards {
+        width: 33.3%;
+    }
+}
+.cards .card-item {
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    width: 100%;
+    border-radius: 6px;
+    box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    transition: transform 0.5s;
+    -webkit-transition: transform 0.5s;
+}
+.cards .card-item:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+}
+.cards .card-item:hover .card-image {
+    opacity: 1;
+}
+.cards .card-info {
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    padding: 1rem;
+    line-height: 1.5em;
+    margin-top: 20px;
+}
+.cards .card-title {
+    font-size: 25px;
+    line-height: 1.1em;
+    color: #32325d;
+    margin-bottom: 0.2em;
+}
+.cards .card-image {
+    height: 200px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 6px 6px 0px 0px;
+    opacity: 0.91;
+}
+
+.card-intro {
+    margin-top: 20px;
+}
+
+.card-image img {
+    width: 340px;
+    height: 200px;
+}
+
+.faq {
+    margin: 0 auto;
+    /* padding: 4rem; */
+    width: 50rem;
+}
+
+.question {
+    padding: 10px;
+    /* width: 50rem; */
+}
+
+.qq{
+    display: flex;
+    justify-content: space-between;
+}
+
+.question h5{
+    color: #7288a2;
+    cursor: pointer;
+    border-bottom: 1px solid lightgray;
+}
+
+.question h5:hover{
+    color: #03b5d2;
+    border-bottom: 1px solid #03b5d2;
+}
+
+.answer{
+    display: none;
+}
+.show {
+    display: block;
 }

@@ -205,7 +205,7 @@
                 <div class="first">
                     <div class="image">
                         <img src="https://b.zmtcdn.com/data/pictures/chains/9/18438909/8ac67f799c14cd3b586e18e48eaa00f7_o2_featured_v2.jpg?output-format=webp"
-                        alt="">
+                            alt="">
                     </div>
                     <div class="title mt-2">
                         <h5 class="title">The Pizza India</h5>
@@ -279,7 +279,7 @@
                     </div>
                     <div class="parent-container">
                         <div class="description">
-                           Ice cream, shakes, sandwhich
+                            Ice cream, shakes, sandwhich
                         </div>
                         <div class="priceforone">
                             ₹400 for one
@@ -292,8 +292,7 @@
                 </div>
                 <div class="first">
                     <div class="image">
-                        <img src="https://static.toiimg.com/photo/75122042.cms"
-                            alt="">
+                        <img src="https://static.toiimg.com/photo/75122042.cms" alt="">
                     </div>
                     <div class="title mt-2">
                         <h5 class="title">Pops Juice Centre</h5>
@@ -343,40 +342,122 @@
     <div class="container">
         <div class="mt-5"></div>
     </div>
-    <div class="container">
+    <div class="containesr">
         <div class="triomain" style="margin-top: 50px">
             <div class="trio-title">
-                <center><h3>Food delivery you can count on</h3></center>
+                <center>
+                    <h3>Food delivery you can count on</h3>
+                </center>
             </div>
             <br>
-            <div class="maintrio" style="margin-top: 50px">
-                <div class="row-first">
-                    <div class="ogfirst">
-                        <h3>Choose what you want</h3>
-                        <p>Select food items from your favourite store anywhere, anytime.</p>
-                        <div class="firstimage">
-                            <img src="https://www.bloggingherway.com/wp-content/uploads/2022/02/haute-stock-photography-mompreneur-final-10-scaled-e1618025674267-1024x683.jpeg.webp" alt="">
+            <div class="container">
+                <div class="containers">
+                    <div class="cards">
+                        <div class="card-item">
+                            <div class="card-image">
+                                <img src="https://www.bloggingherway.com/wp-content/uploads/2022/02/haute-stock-photography-mompreneur-final-10-scaled-e1618025674267-1024x683.jpeg.webp"
+                                    alt="">
+                            </div>
+                            <div class="card-info">
+                                <h2 class="card-title">Choose what you want</h2>
+                                <p class="card-intro">You have the convenience to choose food items from your preferred
+                                    store at any location and time that suits you.</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="ogfirst">
-                        <h3>See real time updates</h3>
-                        <p>Personal shoppers pick items with care. Chat as they shop and manage your order</p>
-                        <div class="firstimage">
-                            <img src="https://hips.hearstapps.com/hmg-prod/images/how-to-check-screen-time-1669837476.jpg" alt="">
+                    <div class="cards">
+                        <div class="card-item">
+                            <div class="card-image">
+                                <img src="https://hips.hearstapps.com/hmg-prod/images/how-to-check-screen-time-1669837476.jpg"
+                                    alt="">
+                            </div>
+                            <div class="card-info">
+                                <h2 class="card-title">See real time updates</h2>
+                                <p class="card-intro">Our personal shoppers meticulously select items, prioritizing
+                                    quality and your preferences. You can communicate with them in real-time.</p>
+                            </div>
                         </div>
                     </div>
-                    <div class="ogfirst">
-                        <h3>Get your food delivered</h3>
-                        <p>Your food will be delivered within a minutes by our special delivery agents.</p>
-                        <div class="firstimage">
-                            <img src="https://img.freepik.com/premium-vector/online-food-delivery-service-your-home-courier-received-order-delivery-food-online-payment-was-successful-phone-pay-terminal-check-scooter-mapaddressvector-illustration_608021-1327.jpg?w=2000" alt="">
+                    <div class="cards">
+                        <div class="card-item">
+                            <div class="card-image">
+                                <img src="https://img.freepik.com/premium-vector/online-food-delivery-service-your-home-courier-received-order-delivery-food-online-payment-was-successful-phone-pay-terminal-check-scooter-mapaddressvector-illustration_608021-1327.jpg?w=2000"
+                                    alt="">
+                            </div>
+                            <div class="card-info">
+                                <h2 class="card-title">Get your food delivered</h2>
+                                <p class="card-intro">With a commitment to excellence, we strive to provide you with a
+                                    seamless and convenient experience</p>
+                            </div>
                         </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="mt-5"></div>
+            <div class="container">
+                <div class="faq" style="margin-top: 20%">
+                    <h2>Frequently Asked Questions</h2>
+                    <div class="mt-5"></div>
+                    <div class="question">
+                        <h5 class="qq">How are food items price calculated ?&nbsp;<span
+                                class="material-symbols-outlined">
+                                add
+                            </span></h5>
+                        <div class="answer">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque culpa quidem
+                            vel
+                            minima! Non, unde doloremque quod ipsa consectetur rem ullam debitis aliquid blanditiis
+                            facere
+                            pariatur eveniet repellendus a enim?</div>
+                    </div>
+                    <div class="question">
+                        <h5 class="qq">What will be the quality of food? &nbsp;<span
+                                class="material-symbols-outlined">
+                                add
+                            </span></h5>
+                        <div class="answer">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque culpa quidem
+                            vel
+                            minima! Non, unde doloremque quod ipsa consectetur rem ullam debitis aliquid blanditiis
+                            facere
+                            pariatur eveniet repellendus a enim?</div>
+                    </div>
+                    <div class="question">
+                        <h5 class="qq">How much time it will take to deliver food ?&nbsp;<span
+                                class="material-symbols-outlined">
+                                add
+                            </span></h5>
+                        <div class="answer">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque culpa quidem
+                            vel
+                            minima! Non, unde doloremque quod ipsa consectetur rem ullam debitis aliquid blanditiis
+                            facere
+                            pariatur eveniet repellendus a enim?</div>
+                    </div>
+                    <div class="question">
+                        <h5 class="qq">Food item will be fresh ?&nbsp;<span
+                                class="material-symbols-outlined">
+                                add
+                            </span></h5>
+                        <div class="answer">Loresm ipsum dolor sit amet consectetur, adipisicing elit. Atque culpa quidem
+                            vel
+                            minima! Non, unde doloremque quod ipsa consectetur rem ullam debitis aliquid blanditiis
+                            facere
+                            pariatur eveniet repellendus a enim?</div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <br><br><br><br><br><br><br>
+    <script>
+        const questions = document.querySelectorAll('.qq');
+    
+        questions.forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                answer.classList.toggle('show');
+            });
+        });
+    </script>
 </body>
 
 </html>
