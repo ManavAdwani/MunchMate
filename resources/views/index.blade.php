@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MunchMate - Homepage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -411,8 +412,7 @@
                             pariatur eveniet repellendus a enim?</div>
                     </div>
                     <div class="question">
-                        <h5 class="qq">What will be the quality of food? &nbsp;<span
-                                class="material-symbols-outlined">
+                        <h5 class="qq">What will be the quality of food? &nbsp;<span class="material-symbols-outlined">
                                 add
                             </span></h5>
                         <div class="answer">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Atque culpa quidem
@@ -433,11 +433,11 @@
                             pariatur eveniet repellendus a enim?</div>
                     </div>
                     <div class="question">
-                        <h5 class="qq">Food item will be fresh ?&nbsp;<span
-                                class="material-symbols-outlined">
+                        <h5 class="qq">Food item will be fresh ?&nbsp;<span class="material-symbols-outlined">
                                 add
                             </span></h5>
-                        <div class="answer">Loresm ipsum dolor sit amet consectetur, adipisicing elit. Atque culpa quidem
+                        <div class="answer">Loresm ipsum dolor sit amet consectetur, adipisicing elit. Atque culpa
+                            quidem
                             vel
                             minima! Non, unde doloremque quod ipsa consectetur rem ullam debitis aliquid blanditiis
                             facere
@@ -448,6 +448,56 @@
         </div>
     </div>
     <br><br><br><br><br><br><br>
+    <!-- Site footer -->
+    <footer class="site-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 col-md-6">
+                    <h6>About</h6>
+                    <p class="text-justify">MunchMate.com <i>DELICIOUS FOOD, DELIVERED </i> is a platform dedicated to satisfying your cravings. We specialize in providing the most mouthwatering dishes with the utmost convenience. Our mission is to deliver deliciousness right to your doorstep. We offer a wide range of cuisines, from Italian to Mexican, and we ensure that your dining experience is nothing short of delightful.</p>
+
+                </div>
+
+                <div class="col-xs-6 col-md-3">
+                    <h6>FOR RESTAURANTS</h6>
+                    <ul class="footer-links">
+                        <li><a href="#">Partner with us</a></li>
+                        <li><a href="">App for you</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-xs-6 col-md-3">
+                    <h6>Quick Links</h6>
+                    <ul class="footer-links">
+                        <li><a href="http://scanfcode.com/about/">Home</a></li>
+                        <li><a href="http://scanfcode.com/contact/">Offers</a></li>
+                        <li><a href="http://scanfcode.com/contribute-at-scanfcode/">Help</a></li>
+                        <li><a href="http://scanfcode.com/privacy-policy/">Sign in</a></li>
+                        <li><a href="http://scanfcode.com/sitemap/">Contact us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <hr>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8 col-sm-6 col-xs-12">
+                    <p class="copyright-text">Copyright &copy; 2023 All Rights Reserved by
+                        <a href="#">MunchMate</a>.
+                    </p>
+                </div>
+
+                <div class="col-md-4 col-sm-6 col-xs-12">
+                    <ul class="social-icons">
+                        <li><a class="facebook" href="#"><i class="fa fa-facebook"></i></a></li>
+                        <li><a class="twitter" href="#"><i class="fa fa-twitter"></i></a></li>
+                        <li><a class="dribbble" href="#"><i class="fa fa-dribbble"></i></a></li>
+                        <li><a class="linkedin" href="#"><i class="fa fa-linkedin"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
     <script>
         const questions = document.querySelectorAll('.qq');
     
