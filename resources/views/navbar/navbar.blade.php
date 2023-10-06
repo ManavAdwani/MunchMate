@@ -40,7 +40,7 @@
                                     <a class="nav-link" href="#">Help</a>
                                 </li>
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                    <a class="nav-link" href="#">Sign in </a>
+                                    <a class="nav-link" href="{{route('sign_in')}}">Sign in </a>
                                 </li>
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                                     <a class="nav-link" href="#">Contact us</a>

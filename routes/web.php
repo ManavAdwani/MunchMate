@@ -20,3 +20,7 @@ Route::get('/', function () {
 Route::get('navbar', function(){
     return view('navbar.navbar');
 });
+
+Route::get('signIn',function(){
+    return view('Sign in.sign_in');
+})->name('sign_in');
