@@ -19,7 +19,7 @@
                         <h2>Sign In</h2>
                         <input type="number" name="" placeholder="Phone Number" />
                         <input type="password" name="" placeholder="Password" />
-                        <input type="submit" name="" value="Login" />
+                        <input type="submit" name="login" value="Login" />
                         <p class="signup">
                             Don't have an account ?
                             <a href="#" onclick="toggleForm();">Sign Up.</a>
@@ -29,13 +29,15 @@
             </div>
             <div class="user signupBx">
                 <div class="formBx">
-                    <form action="" onsubmit="return false;">
+                    <form action="{{route('signup')}}" method="POST">
+                        @csrf
                         <h2>Create an account</h2>
-                        <input type="number" name="" placeholder="Phone Number" />
-                        <input type="email" name="" placeholder="Email Address" />
-                        <input type="password" name="" placeholder="Create Password" />
-                        <input type="password" name="" placeholder="Confirm Password" />
-                        <input type="submit" name="" value="Sign Up" />
+                        <input type="text" name="username" placeholder="Your Name" />
+                        <input type="number" name="phone" placeholder="Phone Number" />
+                        <input type="email" name="email" placeholder="Email Address" />
+                        <input type="password" name="pass" placeholder="Create Password" />
+                        <input type="password" name="cpass" placeholder="Confirm Password" />
+                        <input type="submit" name="signup" value="Sign Up" />
                         <p class="signup">
                             Already have an account ?
                             <a href="#" onclick="toggleForm();">Sign in.</a>

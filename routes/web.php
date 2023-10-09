@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +25,5 @@ Route::get('navbar', function(){
 Route::get('signIn',function(){
     return view('Sign in.sign_in');
 })->name('sign_in');
+
+Route::post('signUp', [UserController::class,'signUp'])->name('signup');
