@@ -15,10 +15,17 @@
             <div class="user signinBx">
                 <div class="imgBx"><img src="{{asset('logo/Untitled design.png')}}" alt="" /></div>
                 <div class="formBx">
-                    <form action="" onsubmit="return false;">
+                    <form action="{{route('login')}}" method="POST">
+                        @csrf
+
                         <h2>Sign In</h2>
-                        <input type="number" name="" placeholder="Phone Number" />
-                        <input type="password" name="" placeholder="Password" />
+                        <input type="number" name="phone" value="{{ old('phone') }}" placeholder="Phone Number" />
+                        <input type="password" name="pass" placeholder="Password" />
+                        @if(Session::has('error'))
+                        <div class="alert alert-danger" role="alert">
+                            {{Session::get('error')}}
+                        </div>
+                        @endif
                         <input type="submit" name="login" value="Login" />
                         <p class="signup">
                             Don't have an account ?

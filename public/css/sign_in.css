@@ -170,3 +170,7 @@ section .container.active .signinBx .imgBx {
         width: 100%;
     }
 }
+
+.alert{
+    color: red;
+}

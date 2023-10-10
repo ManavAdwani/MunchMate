@@ -27,3 +27,4 @@ Route::get('signIn',function(){
 })->name('sign_in');
 
 Route::post('signUp', [UserController::class,'signUp'])->name('signup');
+Route::post('login',[UserController::class,'login'])->name('login');
