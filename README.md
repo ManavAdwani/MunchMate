@@ -84,7 +84,9 @@ No, since this is a personal project I am not planning to launch this in market,
 #### Which tech is used in this ?
 
 For Front-end i have used - Html, Css, Js, Bootstrap
+<br>
 For Ui/Ux - I have some figma templates
+<br>
 For Backend - MySql, Laravel
 
 
