@@ -6,17 +6,9 @@ use App\Models\User;
 
 use Illuminate\Http\Request;
 use Session;
+
 class UserController extends Controller
 {
-  public function signInPage(){
-    $key = session('username');
-    if($key){
-      return redirect('/');
-    }
-    else{
-      return redirect('sign_in');
-    }
-  }
   public function signUp(Request $request)
   {
     $request->validate([
@@ -37,7 +29,8 @@ class UserController extends Controller
       return;
     }
     $user->save();
-    return redirect('/')->with('username', $user->username);
+    session()->put('username', $user->username);
+    return redirect('/');
   }
 
   public function login(Request $request)
@@ -47,27 +40,27 @@ class UserController extends Controller
       'pass' => 'required'
     ]);
     $phone = $request->input('phone');
-    $user = User::where('phone_number',$phone)->select('username')->first();
+    $user = User::where('phone_number', $phone)->select('username')->first();
     if ($user != null) {
-      $checkPass = User::where('phone_number', $phone)->select('password', 'username','role')->first();
+      $checkPass = User::where('phone_number', $phone)->select('password', 'username', 'role')->first();
       $password = $checkPass->password;
       if ($password) {
         if ($password == $request->input('pass')) {
-          if($checkPass->role == 1){
-            return redirect('/')->with('username',$checkPass->username);
-          }else{
-            return redirect('/')->with('username',$checkPass->username);
+          if ($checkPass->role == 1) {
+            session()->put('username', $user->username);
+            return redirect('/')->with('username', $checkPass->username);
+          } elseif($checkPass->role == 2) {
+            session()->put('username', $user->username);
+            return redirect('/')->with('username', $checkPass->username);
           }
         } else {
-         return back()->with('error','Wrong Password');
+          return back()->with('error', 'Wrong Password');
         }
       } else {
-        return back()->with('error','Wrong Id and Password');
+        return back()->with('error', 'Wrong Id and Password');
       }
     } else {
-      return back()->with('error','User not registered');
+      return back()->with('error', 'User not registered');
     }
   }
-
-
 }

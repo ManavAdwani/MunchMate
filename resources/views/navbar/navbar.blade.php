@@ -39,7 +39,7 @@
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                                     <a class="nav-link" href="#">Help</a>
                                 </li>
-                                @if(!Session::has('username'))
+                                @if(!session()->get('username'))
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                                     <a class="nav-link" href="{{route('sign_in')}}">Sign in </a>
                                 </li>
