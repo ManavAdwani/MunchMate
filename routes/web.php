@@ -23,7 +23,11 @@ Route::get('navbar', function(){
 });
 
 Route::get('signIn',function(){
-    return view('Sign in.sign_in');
+    if(session()->get('username')){
+        return redirect('/');
+    }else{
+        return view('Sign in.sign_in');
+    }
 })->name('sign_in');
 
 Route::post('signUp', [UserController::class,'signUp'])->name('signup');
