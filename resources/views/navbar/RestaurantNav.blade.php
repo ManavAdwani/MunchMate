@@ -29,12 +29,12 @@
                         </button>
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ml-auto py-4 py-md-0">
-                                <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4 active">
+                                <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                                     <a class="nav-link" href="#" role="button" aria-haspopup="true"
                                         aria-expanded="false">Dashboard</a>
                                 </li>
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                    <a class="nav-link" href="#">Restaurant</a>
+                                    <a class="nav-link" href="{{route('restaurant')}}">Restaurant</a>
                                 </li>
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                                     <a class="nav-link" href="#">Menu</a>
@@ -55,10 +55,6 @@
             </div>
         </div>
     </div>
-    <br>
-    <br>
-    <br>
-    <br><br>
 </body>
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
     crossorigin="anonymous"></script>
