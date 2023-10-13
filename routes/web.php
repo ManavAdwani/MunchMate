@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\RestaurantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
@@ -22,7 +23,7 @@ Route::get('navbar', function () {
     return view('navbar.navbar');
 });
 
-Route::get('restaurantNav',function(){
+Route::get('restaurantNav', function () {
     return view('navbar.RestaurantNav');
 });
 
@@ -40,8 +41,12 @@ Route::post('login', [UserController::class, 'login'])->name('login');
 Route::get('Restaurant', function () {
     if (session()->get('username')) {
         return view('Restaurant.index');
-    }
-    else{
+    } else {
         return view('Sign in.sign_in');
     }
 })->name('restaurantIndex');
+
+Route::get('RestaurantPage', function () {
+    return view('Restaurant.RestaurantPage');
+})->name('restaurant');
+Route::get('add-Restaurant', [RestaurantController::class, 'addRestaurant'])->name('addRestaurant');
