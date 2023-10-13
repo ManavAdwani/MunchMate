@@ -3,6 +3,8 @@
 
 # MunchMate
 
+This project is started just a week ago, so everything for now its basic AF in this project lol.
+
 MunchMate is a delightful online food delivery platform that I created as a personal project using a combination of web development technologies. This project, powered by HTML, CSS, JavaScript, MySQL, and Laravel, embodies my passion for both coding and culinary experiences. 
 
 The website offers a user-friendly interface that allows you to browse through a variety of restaurants, view their menus, and customize your orders according to your preferences. With the power of Laravel and MySQL, the platform efficiently manages user accounts, order processing, and delivery information.
