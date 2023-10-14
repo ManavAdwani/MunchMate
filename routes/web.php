@@ -28,25 +28,28 @@ Route::get('restaurantNav', function () {
 });
 
 Route::get('signIn', function () {
-    if (session()->get('username')) {
-        return redirect('/');
-    } else {
-        return view('Sign in.sign_in');
-    }
+    // if (session()->get('username')) {
+    // return redirect('/');
+    // } else {
+    return view('Sign in.sign_in');
+    // }
 })->name('sign_in');
 
 Route::post('signUp', [UserController::class, 'signUp'])->name('signup');
 Route::post('login', [UserController::class, 'login'])->name('login');
 
 Route::get('Restaurant', function () {
-    if (session()->get('username')) {
-        return view('Restaurant.index');
-    } else {
-        return view('Sign in.sign_in');
-    }
+    return view('Restaurant.index');
 })->name('restaurantIndex');
 
 Route::get('RestaurantPage', function () {
     return view('Restaurant.RestaurantPage');
 })->name('restaurant');
 Route::get('add-Restaurant', [RestaurantController::class, 'addRestaurant'])->name('addRestaurant');
+Route::post('save-Restaurant', [RestaurantController::class, 'saveRestaurant'])->name('saveRestaurant');
+
+Route::get('addMenu', function () {
+    return view('Restaurant.addMenu');
+})->name('addMenu');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
