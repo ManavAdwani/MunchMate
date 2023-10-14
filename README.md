@@ -3,8 +3,6 @@
 
 # MunchMate
 
-This project is started just a week ago, so everything for now its basic AF in this project lol.
-
 MunchMate is a delightful online food delivery platform that I created as a personal project using a combination of web development technologies. This project, powered by HTML, CSS, JavaScript, MySQL, and Laravel, embodies my passion for both coding and culinary experiences. 
 
 The website offers a user-friendly interface that allows you to browse through a variety of restaurants, view their menus, and customize your orders according to your preferences. With the power of Laravel and MySQL, the platform efficiently manages user accounts, order processing, and delivery information.
@@ -52,12 +50,12 @@ Install Latest version of Laravel
 Then, clone this project
 
 ```bash
-- git clone <link of this project>
-- composer install
-- cp .env.example .env
-- php artisan key:generate
-- php artisan migrate
-- php artisan serve
+- Run git clone <link of this project>
+- Run composer install
+- Run cp .env.example .env
+- Run php artisan key:generate
+- Run php artisan migrate
+- Run php artisan serve
 - Go to link localhost:8000
 ```
 
@@ -77,6 +75,19 @@ phone number - 909899999
 password - 12345
 
 ```
+## Roadmap
+
+- Add Restaurant Panel
+
+- Make Everything Dynamic (Right now Everything is static)
+
+- Show Menu and all from the database
+
+- Make Delivery Panel
+
+- At last change ui (if needed)
+
+
 ## FAQ
 
 #### Are we going to launch this in market as a company ?
@@ -86,15 +97,22 @@ No, since this is a personal project I am not planning to launch this in market,
 #### Which tech is used in this ?
 
 For Front-end i have used - Html, Css, Js, Bootstrap
-<br>
 For Ui/Ux - I have some figma templates
-<br>
 For Backend - MySql, Laravel
 
 
 ## Support
 
 For support, email manavadwani00@gmail.com or join our Slack channel.
+
+
+## Contributing
+
+Contributions are always welcome!
+
+See `contributing.md` for ways to get started.
+
+Please adhere to this project's `code of conduct`.
 
 
 ## Authors
