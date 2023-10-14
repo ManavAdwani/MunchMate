@@ -49,7 +49,7 @@ class UserController extends Controller
           if ($checkPass->role == 1) {
             session()->put('username', $user->username);
             return redirect('/')->with('username', $checkPass->username);
-          } elseif($checkPass->role == 2) {
+          } elseif ($checkPass->role == 2) {
             session()->put('username', $user->username);
             return redirect('Restaurant')->with('username', $checkPass->username);
           }
