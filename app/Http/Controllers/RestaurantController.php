@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
+use Session;
 
 class RestaurantController extends Controller
 {
@@ -13,7 +14,7 @@ class RestaurantController extends Controller
     public function saveRestaurant(Request $request){
         $request->validate([
             'name'=>'required',
-            'email'=>'required',
+            'email'=>'required|unique:restaurants,email',
             'phone'=>'required',
             'pass'=>'required',
             'cpass'=>'required'
@@ -25,11 +26,17 @@ class RestaurantController extends Controller
        $res->phone = $request->input('phone');
        $pass = $request->input('pass');
        $cpass = $request->input('cpass');
+       $res->owner = session()->get('userId');
        if($pass == $cpass){
         $res->password = $pass;
         $res->owner = 1;
         $res->save();
-        return view('addMenu');
+        session()->put('userId',$res->owner);
+        return redirect('addMenu');
        }
+    }
+
+    public function saveMenu(Request $request){
+        dd($request->all());
     }
 }

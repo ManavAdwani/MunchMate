@@ -30,6 +30,7 @@ class UserController extends Controller
     }
     $user->save();
     session()->put('username', $user->username);
+    session()->put('userId',$user->id);
     return redirect('/');
   }
 
@@ -48,10 +49,12 @@ class UserController extends Controller
         if ($password == $request->input('pass')) {
           if ($checkPass->role == 1) {
             session()->put('username', $user->username);
-            return redirect('/')->with('username', $checkPass->username);
+            session()->put('userId',$user->id);
+            return redirect('/');
           } elseif ($checkPass->role == 2) {
             session()->put('username', $user->username);
-            return redirect('Restaurant')->with('username', $checkPass->username);
+            session()->put('userId',$user->id);
+            return redirect('Restaurant');
           }
         } else {
           return back()->with('error', 'Wrong Password');
