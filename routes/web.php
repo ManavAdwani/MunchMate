@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\MainController;
 use App\Http\Controllers\RestaurantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -15,9 +16,7 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [MainController::class,'homepage'])->name('homePage');
 
 Route::get('navbar', function () {
     return view('navbar.navbar');
@@ -27,13 +26,15 @@ Route::get('restaurantNav', function () {
     return view('navbar.RestaurantNav');
 });
 
-Route::get('signIn', function () {
-    // if (session()->get('username')) {
-    // return redirect('/');
-    // } else {
-    return view('Sign in.sign_in');
-    // }
-})->name('sign_in');
+// Route::get('signIn', function () {
+//     // if (session()->get('username')) {
+//     // return redirect('/');
+//     // } else {
+//     return view('Sign in.sign_in');
+//     // }
+// })->name('sign_in');
+
+Route::get('signIn',[MainController::class,'signIn'])->name('sign_in');
 
 Route::post('signUp', [UserController::class, 'signUp'])->name('signup');
 Route::post('login', [UserController::class, 'login'])->name('login');
@@ -52,4 +53,4 @@ Route::get('addMenu', function () {
     return view('Restaurant.addMenu');
 })->name('addMenu');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::post('saveMenu',[RestaurantController::class, 'saveMenu'])->name('saveMenu');
