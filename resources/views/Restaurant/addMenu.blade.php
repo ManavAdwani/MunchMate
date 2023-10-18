@@ -34,37 +34,38 @@
             <div class="col-sm-offset-1 col-sm-10" id="one">
                 <form action="{{route('saveMenu')}}" method="POST">
                     @csrf
-                <!--row-->
-                <div id="uploader">
-                    <div class="row uploadDoc">
-                        <div class="col-sm-3">
-                            <div class="docErr">Please upload valid file</div>
-                            <!--error-->
-                            <div class="fileUpload btn btn-orange">
-                                <img src="{{asset('logo/image-gallery.png')}}" class="icon">
-                                <span class="upl" id="upload">Upload Image</span>
-                                <input type="file" class="upload up" id="up" onchange="readURL(this);" />
-                            </div><!-- btn-orange -->
-                        </div><!-- col-3 -->
-                        <div class="col-sm-8">
-                            <input type="text" class="form-control" name="name" placeholder="Dish Name">
-                            <input type="text" class="form-control" name="desc" placeholder="Description">
-                            <input type="number" class="form-control" name="price" placeholder="Dish Price">
-                        </div>
-                        <!--col-8-->
-                        <div class="col-sm-1"><a class="btn-check"><i class="fa fa-times"></i></a></div><!-- col-1 -->
-                    </div>
                     <!--row-->
-                </div>
-                
-           
-                <!--uploader-->
-                <div class="text-center">
-                    <a class="btn btn-new"><i class="fa fa-plus"></i> Add new</a>
-                    <button class="btn btn-primary">Submit</button>
-                </div>
+                    <div id="uploader">
+                        <div class="row uploadDoc">
+                            <div class="col-sm-3">
+                                <div class="docErr">Please upload valid file</div>
+                                <!--error-->
+                                <div class="fileUpload btn btn-orange">
+                                    <img src="{{asset('logo/image-gallery.png')}}" class="icon">
+                                    <span class="upl" id="upload">Upload Image</span>
+                                    <input type="file" class="upload up" id="up" onchange="readURL(this);" />
+                                </div><!-- btn-orange -->
+                            </div><!-- col-3 -->
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" name="name[]" placeholder="Dish Name">
+                                <input type="text" class="form-control" name="desc[]" placeholder="Description">
+                                <input type="number" class="form-control" name="price[]" placeholder="Dish Price">
+                            </div>
+                            <!--col-8-->
+                            <div class="col-sm-1"><a class="btn-check"><i class="fa fa-times"></i></a></div>
+                            <!-- col-1 -->
+                        </div>
+                        <!--row-->
+                    </div>
+
+
+                    <!--uploader-->
+                    <div class="text-center">
+                        <a class="btn btn-new"><i class="fa fa-plus"></i> Add new</a>
+                        <button class="btn btn-primary">Submit</button>
+                    </div>
             </div>
-        </form>
+            </form>
             <!--one-->
         </div><!-- row -->
     </div>
@@ -105,7 +106,7 @@ $(document).ready(function(){
    });
 
    $(".btn-new").on('click',function(){
-        $("#uploader").append('<div class="row uploadDoc"><div class="col-sm-3"><div class="docErr">Please upload valid file</div><!--error--><div class="fileUpload btn btn-orange">  <img src="{{asset("logo/image-gallery.png")}}" class="icon"><span class="upl" id="upload">Upload Image</span><input type="file" class="upload up" id="up" onchange="readURL(this);" /></div></div><div class="col-sm-8"> <input type="text" class="form-control" name="name" placeholder="Dish Name"><input type="text" class="form-control" name="desc" placeholder="Description"><input type="number" class="form-control" name="price" placeholder="Dish Price"></div><div class="col-sm-1"><a class="btn-check"><i class="fa fa-times"></i></a></div></div>');
+        $("#uploader").append('<div class="row uploadDoc"><div class="col-sm-3"><div class="docErr">Please upload valid file</div><!--error--><div class="fileUpload btn btn-orange">  <img src="{{asset("logo/image-gallery.png")}}" class="icon"><span class="upl" id="upload">Upload Image</span><input type="file" class="upload up" id="up" onchange="readURL(this);" /></div></div><div class="col-sm-8"> <input type="text" class="form-control" name="name[]" placeholder="Dish Name"><input type="text" class="form-control" name="desc[]" placeholder="Description"><input type="number" class="form-control" name="price[]" placeholder="Dish Price"></div><div class="col-sm-1"><a class="btn-check"><i class="fa fa-times"></i></a></div></div>');
    });
     
    $(document).on("click", "a.btn-check" , function() {

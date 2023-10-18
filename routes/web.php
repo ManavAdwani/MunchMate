@@ -49,6 +49,9 @@ Route::get('RestaurantPage', function () {
 Route::get('add-Restaurant', [RestaurantController::class, 'addRestaurant'])->name('addRestaurant');
 Route::post('save-Restaurant', [RestaurantController::class, 'saveRestaurant'])->name('saveRestaurant');
 
+Route::get('restaurant-login',[RestaurantController::class,'loginRes'])->name('restaurant_login');
+Route::post('res-login',[RestaurantController::class,'restaurant_login'])->name('login_res');
+
 Route::get('addMenu', function () {
     return view('Restaurant.addMenu');
 })->name('addMenu');

@@ -23,7 +23,7 @@
         </div>
         <div class="buttons">
             <a href="{{route('addRestaurant')}}"><button class="btn btn-primary">Register your restaurant</button></a>
-            <button class="btn2 btn btn-secondary">Login to view existing restaurants</button>
+           <a href="{{route('restaurant_login')}}"> <button class="btn2 btn btn-secondary">Login to view existing restaurants</button></a>
         </div>
         <div class="mainCard">
             <div class="card">
