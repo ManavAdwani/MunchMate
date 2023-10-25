@@ -61,7 +61,15 @@ class RestaurantController extends Controller
             $pass = $request->input('pass');
             if ($phone == $actualPhone) {
                 if ($pass == $actualPass) {
-                    return back()->with('message', 'WELCOME BACK');
+                    $getResId = Restaurant::where('email',$request->input('email'))->select('id')->first();
+                    $isMenu = RestaurantMenu::where('restaurant_id',$getResId->id)->exists();
+                    if($isMenu){
+                        session()->put('resId', $getResId->id);
+                        return back()->with('message', 'Welcome Back');
+                    }else{
+                        session()->put('resId', $getResId->id);
+                        return view('Restaurant.addMenu');
+                    }
                 } else {
                     return back()->with('message', 'Wrong Password');
                 }
