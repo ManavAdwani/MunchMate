@@ -50,7 +50,7 @@
                                 <div class="fileUpload btn btn-orange">
                                     <img src="{{asset('logo/image-gallery.png')}}" class="icon">
                                     <span class="upl" id="upload">Upload Image</span>
-                                    <input type="file" class="upload up" id="up" onchange="readURL(this);" />
+                                    <input type="file" class="upload up" name="menuPic" id="up" onchange="readURL(this);" />
                                 </div><!-- btn-orange -->
                             </div><!-- col-3 -->
                             <div class="col-sm-8">

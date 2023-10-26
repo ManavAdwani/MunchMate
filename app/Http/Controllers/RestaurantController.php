@@ -61,12 +61,12 @@ class RestaurantController extends Controller
             $pass = $request->input('pass');
             if ($phone == $actualPhone) {
                 if ($pass == $actualPass) {
-                    $getResId = Restaurant::where('email',$request->input('email'))->select('id')->first();
-                    $isMenu = RestaurantMenu::where('restaurant_id',$getResId->id)->exists();
-                    if($isMenu){
+                    $getResId = Restaurant::where('email', $request->input('email'))->select('id')->first();
+                    $isMenu = RestaurantMenu::where('restaurant_id', $getResId->id)->exists();
+                    if ($isMenu) {
                         session()->put('resId', $getResId->id);
                         return back()->with('message', 'Welcome Back');
-                    }else{
+                    } else {
                         session()->put('resId', $getResId->id);
                         return view('Restaurant.addMenu');
                     }
@@ -76,9 +76,8 @@ class RestaurantController extends Controller
             } else {
                 return back()->with('message', 'Wrong Phone Number');
             }
-        }
-        else{
-            return back()->with('message','Restaurant with these details dont exists please register first');
+        } else {
+            return back()->with('message', 'Restaurant with these details dont exists please register first');
         }
     }
 
@@ -89,23 +88,49 @@ class RestaurantController extends Controller
             'desc' => 'required',
             'price' => 'required'
         ]);
-
         $restaurantId = session()->get('resId');
+        $isPfp = Restaurant::where('id', $restaurantId)->select('restaurant_pfp', 'name')->first();
+        $pfp = $isPfp->restaurant_pfp ?? 0;
+        $name = $isPfp->name;
+        if ($pfp == 0) {
+            $request->validate([
+                'myFile' => 'required',
+            ]);
+        }
 
+        if ($pfp == 0) {
+            $ldate = date('Y-m-d H:i:s');
+            $resImage = $request->file('myFile');
+            if ($request->hasfile('myFile')) {
+                $fileName = $resImage->getClientOriginalName();
+                $resImage->move(public_path('storage/pfp/'), $ldate . "_" . $name);
+                $findRes = Restaurant::find($restaurantId);
+                if ($findRes) {
+                    $findRes->restaurant_pfp = $ldate . "_" . $name;
+                    $findRes->update();
+                }
+            }
+        }
         $menus = [];
         foreach ($request->input('name') as $key => $value) {
+            // CHANGES NEEDED
+            $menupic = $request->file('menuPic')[$key];
+            $menuPicName = $menupic->getClientOriginalName();
+            $resImage->move(public_path('storage/menu/'), $ldate . "_" . $menuPicName);
             $menu = [
                 'dish_name' => $value,
                 'description' => $request->input('desc')[$key],
                 'price' => $request->input('price')[$key],
-                'restaurant_id' => $restaurantId
+                'restaurant_id' => $restaurantId,
+                'dish_pic'=>$menuPicName,
             ];
             $menus[] = $menu;
         }
 
         RestaurantMenu::insert($menus);
 
-        return back();
+        dd("Menu Added Successfully !!!");
+        // return back();
         // return back();
     }
 }
