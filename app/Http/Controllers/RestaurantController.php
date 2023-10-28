@@ -6,6 +6,7 @@ use App\Models\Restaurant;
 use App\Models\RestaurantMenu;
 use Illuminate\Http\Request;
 use Session;
+use Carbon\Carbon;
 
 class RestaurantController extends Controller
 {
@@ -61,12 +62,12 @@ class RestaurantController extends Controller
             $pass = $request->input('pass');
             if ($phone == $actualPhone) {
                 if ($pass == $actualPass) {
-                    $getResId = Restaurant::where('email',$request->input('email'))->select('id')->first();
-                    $isMenu = RestaurantMenu::where('restaurant_id',$getResId->id)->exists();
-                    if($isMenu){
+                    $getResId = Restaurant::where('email', $request->input('email'))->select('id')->first();
+                    $isMenu = RestaurantMenu::where('restaurant_id', $getResId->id)->exists();
+                    if ($isMenu) {
                         session()->put('resId', $getResId->id);
                         return back()->with('message', 'Welcome Back');
-                    }else{
+                    } else {
                         session()->put('resId', $getResId->id);
                         return view('Restaurant.addMenu');
                     }
@@ -76,9 +77,8 @@ class RestaurantController extends Controller
             } else {
                 return back()->with('message', 'Wrong Phone Number');
             }
-        }
-        else{
-            return back()->with('message','Restaurant with these details dont exists please register first');
+        } else {
+            return back()->with('message', 'Restaurant with these details dont exists please register first');
         }
     }
 
@@ -91,21 +91,52 @@ class RestaurantController extends Controller
         ]);
 
         $restaurantId = session()->get('resId');
+        $resName = Restaurant::where('id',$restaurantId)->select('name')->first();
+        $Name = $resName->name;
+        $RestaurantPic = $request->file('myFile');
+        $restaurant = Restaurant::find($restaurantId);
+        $pfpName = time()."_".$Name.".png";
+        $RestaurantPic->move(public_path('storage/pfp'),$pfpName);
+        $restaurant->restaurant_pfp = $pfpName;
+        $restaurant->update();
 
-        $menus = [];
+        // Create menu items 
         foreach ($request->input('name') as $key => $value) {
-            $menu = [
-                'dish_name' => $value,
-                'description' => $request->input('desc')[$key],
-                'price' => $request->input('price')[$key],
-                'restaurant_id' => $restaurantId
-            ];
-            $menus[] = $menu;
+
+            $menu = new RestaurantMenu;
+
+            $menu->dish_name = $value;
+            $menu->description = $request->input('desc')[$key];
+            $menu->price = $request->input('price')[$key];
+            $menu->restaurant_id = $restaurantId;
+
+            $menu->save();
         }
 
-        RestaurantMenu::insert($menus);
+        // Upload image files
+        // dd($request->file('menuPic'));
+        if($request->hasFile('menuPic')) {
+        foreach ($request->file('menuPic') as $file) {
+            $resId = $menu->restaurant_id;
+            $resName = Restaurant::where('id',$resId)->select('name')->first();
+            $Name = $resName->name;
+            $filename = time() . '_' . $Name.".png";
 
-        return back();
+            $file->move(public_path('storage/Restaurant_menu'), $filename);
+
+            // Associate with menu
+            $menuPicture = RestaurantMenu::find($menu->id);
+            $menuPicture->dish_pic = $filename;
+            // $menuPicture->filename = $filename;
+            $menuPicture->update();
+        }
+    }
+
+
+        // RestaurantMenu::insert($menus);
+
+        dd("Menu Added Successfully !!!");
+        // return back();
         // return back();
     }
 }
