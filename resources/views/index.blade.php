@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>MunchMate - Homepage</title>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    </head>
-    
-    <body>
-        @include('navbar.navbar')
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>MunchMate - Homepage</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body>
+    @include('navbar.navbar')
     <div class="container">
         <h4>Best offers for you</h4>
         <div class="mainOffers">
@@ -49,13 +50,14 @@
             <p><a href="">View All !</a></p>
         </div>
         <div class="chains mt-4 mb-5">
+            @foreach($restaurants as $restaurant)
             <div class="first">
                 <div class="image">
-                    <img src="https://b.zmtcdn.com/data/pictures/chains/9/18438909/8ac67f799c14cd3b586e18e48eaa00f7_o2_featured_v2.jpg?output-format=webp"
-                        alt="">
+                    <img src="{{asset('storage/pfp/'.$restaurant->restaurant_pfp)}}"
+                        alt="{{$restaurant->restaurant_pfp}}">
                 </div>
                 <div class="title mt-2">
-                    <h5 class="title">The Pizza Flavour</h5>
+                    <h5 class="title">{{$restaurant->name}}</h5>
                     <div class="stars">4.3&nbsp;<span class="material-symbols-outlined">star</span></div>
                 </div>
                 <div class="parent-container">
@@ -73,126 +75,7 @@
                     <button class="btn btn-warning">Order Now</button>
                 </div>
             </div>
-            <div class="first">
-                <div class="image">
-                    <img src="https://b.zmtcdn.com/data/pictures/chains/9/18438909/8ac67f799c14cd3b586e18e48eaa00f7_o2_featured_v2.jpg?output-format=webp"
-                        alt="">
-                </div>
-                <div class="title mt-2">
-                    <h5 class="title">The Pizza Flavour</h5>
-                    <div class="stars">4.3&nbsp;<span class="material-symbols-outlined">star</span></div>
-                </div>
-                <div class="parent-container">
-                    <div class="description">
-                        Pizza, Pasta, Italian, Fastfood
-                    </div>
-                    <div class="priceforone">
-                        ₹400 for one
-                    </div>
-                </div>
-                <div class="time">
-                    20 min
-                </div>
-                <div class="ordernow mt-5" style="width: 100%">
-                    <button class="btn btn-warning">Order Now</button>
-                </div>
-            </div>
-            <div class="first">
-                <div class="image">
-                    <img src="https://b.zmtcdn.com/data/pictures/chains/7/110397/2011193460b6f9638a7d7c7942492b5f_o2_featured_v2.jpg?output-format=webp"
-                        alt="">
-                </div>
-                <div class="title mt-2">
-                    <h5 class="title">The Chocolate Factory</h5>
-                    <div class="stars">4.3&nbsp;<span class="material-symbols-outlined">star</span></div>
-                </div>
-                <div class="parent-container">
-                    <div class="description">
-                        Cafe, Coffee, Chocolate, Cakes
-                    </div>
-                    <div class="priceforone">
-                        ₹400 for one
-                    </div>
-                </div>
-                <div class="time">
-                    20 min
-                </div>
-                <div class="ordernow mt-5" style="width: 100%">
-                    <button class="btn btn-warning">Order Now</button>
-                </div>
-            </div>
-            <div class="first">
-                <div class="image">
-                    <img src="https://b.zmtcdn.com/data/pictures/3/113923/42257d80a58880cde1e9105e3df9677e_o2_featured_v2.jpg?output-format=webp"
-                        alt="">
-                </div>
-                <div class="title mt-2">
-                    <h5 class="title">asharfi-kulfi</h5>
-                    <div class="stars">4.3&nbsp;<span class="material-symbols-outlined">star</span></div>
-                </div>
-                <div class="parent-container">
-                    <div class="description">
-                        Desserts, Ice Cream, Beverages, Shake
-                    </div>
-                    <div class="priceforone">
-                        ₹400 for one
-                    </div>
-                </div>
-                <div class="time">
-                    20 min
-                </div>
-                <div class="ordernow mt-5" style="width: 100%">
-                    <button class="btn btn-warning">Order Now</button>
-                </div>
-            </div>
-            <div class="first">
-                <div class="image">
-                    <img src="https://b.zmtcdn.com/data/pictures/chains/5/112945/bf823dde89048658755ccf16bd3360c8_o2_featured_v2.jpg"
-                        alt="">
-                </div>
-                <div class="title mt-2">
-                    <h5 class="title">KFC</h5>
-                    <div class="stars">4.3&nbsp;<span class="material-symbols-outlined">star</span></div>
-                </div>
-                <div class="parent-container">
-                    <div class="description">
-                        Burger, Fast Food, Biryani, Desserts, Beverages
-                    </div>
-                    <div class="priceforone">
-                        ₹400 for one
-                    </div>
-                </div>
-                <div class="time">
-                    20 min
-                </div>
-                <div class="ordernow mt-5" style="width: 100%">
-                    <button class="btn btn-warning">Order Now</button>
-                </div>
-            </div>
-            <div class="first">
-                <div class="image">
-                    <img src="https://b.zmtcdn.com/data/pictures/chains/1/110381/b060dff55283459118c532b9947aec19_o2_featured_v2.jpg"
-                        alt="">
-                </div>
-                <div class="title mt-2">
-                    <h5 class="title">Subway India</h5>
-                    <div class="stars">4.3&nbsp;<span class="material-symbols-outlined">star</span></div>
-                </div>
-                <div class="parent-container">
-                    <div class="description">
-                        Healthy Food, Fast Food, Sandwich, Salad, Wraps, Beverages
-                    </div>
-                    <div class="priceforone">
-                        ₹400 for one
-                    </div>
-                </div>
-                <div class="time">
-                    20 min
-                </div>
-                <div class="ordernow mt-5" style="width: 100%">
-                    <button class="btn btn-warning">Order Now</button>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
     <div class="container mt-4">
@@ -202,13 +85,13 @@
                 <p><a href="">View All !</a></p>
             </div>
             <div class="mainbestrestaurant">
+                @foreach ($allRes as $res)
                 <div class="first">
                     <div class="image">
-                        <img src="https://b.zmtcdn.com/data/pictures/chains/9/18438909/8ac67f799c14cd3b586e18e48eaa00f7_o2_featured_v2.jpg?output-format=webp"
-                            alt="">
+                        <img src="{{asset('storage/pfp/'.$res->restaurant_pfp)}}" alt="">
                     </div>
                     <div class="title mt-2">
-                        <h5 class="title">The Pizza India</h5>
+                        <h5 class="title">{{$res->name}}</h5>
                         <div class="stars">4.3&nbsp;<span class="material-symbols-outlined">star</span></div>
                     </div>
                     <div class="parent-container">
@@ -224,115 +107,7 @@
                         20 min
                     </div>
                 </div>
-                <div class="first">
-                    <div class="image">
-                        <img src="https://b.zmtcdn.com/data/pictures/chains/1/110381/b060dff55283459118c532b9947aec19_o2_featured_v2.jpg"
-                            alt="">
-                    </div>
-                    <div class="title mt-2">
-                        <h5 class="title">Subway India</h5>
-                        <div class="stars">4.3&nbsp;<span class="material-symbols-outlined">star</span></div>
-                    </div>
-                    <div class="parent-container">
-                        <div class="description">
-                            Healthy Food, Fast Food, Sandwich, Salad, Wraps, Beverages
-                        </div>
-                        <div class="priceforone">
-                            ₹400 for one
-                        </div>
-                    </div>
-                    <div class="time">
-                        <div class="location">Ahmedabad</div>
-                        20 min
-                    </div>
-                </div>
-                <div class="first">
-                    <div class="image">
-                        <img src="https://media.istockphoto.com/id/545286388/photo/chinese-food-blank-background.jpg?s=612x612&w=0&k=20&c=pqOIy07YKO5PlU5VxjscwTGRrrZ8PluKMUjSOz-II60="
-                            alt="">
-                    </div>
-                    <div class="title mt-2">
-                        <h5 class="title">Chinese Corner</h5>
-                        <div class="stars">4.3&nbsp;<span class="material-symbols-outlined">star</span></div>
-                    </div>
-                    <div class="parent-container">
-                        <div class="description">
-                            Chinese, Noodles, Manchurian, Hakka Noodles
-                        </div>
-                        <div class="priceforone">
-                            ₹400 for one
-                        </div>
-                    </div>
-                    <div class="time">
-                        <div class="location">Ahmedabad</div>
-                        20 min
-                    </div>
-                </div>
-                <div class="first">
-                    <div class="image">
-                        <img src="https://img.onmanorama.com/content/dam/mm/en/food/features/images/2021/5/8/ice-cream.jpg"
-                            alt="">
-                    </div>
-                    <div class="title mt-2">
-                        <h5 class="title">Shakti Ice Cream Palour</h5>
-                        <div class="stars">4.3&nbsp;<span class="material-symbols-outlined">star</span></div>
-                    </div>
-                    <div class="parent-container">
-                        <div class="description">
-                            Ice cream, shakes, sandwhich
-                        </div>
-                        <div class="priceforone">
-                            ₹400 for one
-                        </div>
-                    </div>
-                    <div class="time">
-                        <div class="location">Ahmedabad</div>
-                        20 min
-                    </div>
-                </div>
-                <div class="first">
-                    <div class="image">
-                        <img src="https://static.toiimg.com/photo/75122042.cms" alt="">
-                    </div>
-                    <div class="title mt-2">
-                        <h5 class="title">Pops Juice Centre</h5>
-                        <div class="stars">4.3&nbsp;<span class="material-symbols-outlined">star</span></div>
-                    </div>
-                    <div class="parent-container">
-                        <div class="description">
-                            Healthy Food, Fast Food, Sandwich, Salad, Wraps, Beverages
-                        </div>
-                        <div class="priceforone">
-                            ₹400 for one
-                        </div>
-                    </div>
-                    <div class="time">
-                        <div class="location">Ahmedabad</div>
-                        20 min
-                    </div>
-                </div>
-                <div class="first">
-                    <div class="image">
-                        <img src="https://restaurantindia.s3.ap-south-1.amazonaws.com/s3fs-public/content9434.jpg"
-                            alt="">
-                    </div>
-                    <div class="title mt-2">
-                        <h5 class="title">RelaxZone Cafe</h5>
-                        <div class="stars">4.3&nbsp;<span class="material-symbols-outlined">star</span></div>
-                    </div>
-                    <div class="parent-container">
-                        <div class="description">
-                            Coffee, Tea, Beverages,Sandwhich
-                        </div>
-                        <div class="priceforone">
-                            ₹400 for one
-                        </div>
-                    </div>
-                    <div class="time">
-                        <div class="location">Ahmedabad</div>
-                        20 min
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>
@@ -453,7 +228,11 @@
             <div class="row">
                 <div class="col-sm-12 col-md-6">
                     <h6>About</h6>
-                    <p class="text-justify">MunchMate.com <i>DELICIOUS FOOD, DELIVERED </i> is a platform dedicated to satisfying your cravings. We specialize in providing the most mouthwatering dishes with the utmost convenience. Our mission is to deliver deliciousness right to your doorstep. We offer a wide range of cuisines, from Italian to Mexican, and we ensure that your dining experience is nothing short of delightful.</p>
+                    <p class="text-justify">MunchMate.com <i>DELICIOUS FOOD, DELIVERED </i> is a platform dedicated to
+                        satisfying your cravings. We specialize in providing the most mouthwatering dishes with the
+                        utmost convenience. Our mission is to deliver deliciousness right to your doorstep. We offer a
+                        wide range of cuisines, from Italian to Mexican, and we ensure that your dining experience is
+                        nothing short of delightful.</p>
 
                 </div>
 

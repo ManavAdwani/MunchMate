@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Restaurant;
 use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
     public function homepage(){
-        return view('index');
+        $restaurants = Restaurant::all();
+        $allRes = Restaurant::orderBy('id','DESC')->get();
+        return view('index',compact('restaurants','allRes'));
     }
 
     public function signIn(){
@@ -18,4 +21,6 @@ class MainController extends Controller
             return view('Sign in.sign_in');
         }
     }
+
+
 }
