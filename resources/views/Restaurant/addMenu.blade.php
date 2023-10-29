@@ -113,7 +113,7 @@ $(document).ready(function(){
    });
 
    $(".btn-new").on('click',function(){
-        $("#uploader").append('<div class="row uploadDoc"><div class="col-sm-3"><div class="docErr">Please upload valid file</div><!--error--><div class="fileUpload btn btn-orange">  <img src="{{asset("logo/image-gallery.png")}}" class="icon"><span class="upl" id="upload">Upload Image</span><input type="file" class="upload up" id="up" onchange="readURL(this);" /></div></div><div class="col-sm-8"> <input type="text" class="form-control" name="name[]" placeholder="Dish Name"><input type="text" class="form-control" name="desc[]" placeholder="Description"><input type="number" class="form-control" name="price[]" placeholder="Dish Price"></div><div class="col-sm-1"><a class="btn-check"><i class="fa fa-times"></i></a></div></div>');
+        $("#uploader").append('<div class="row uploadDoc"><div class="col-sm-3"><div class="docErr">Please upload valid file</div><!--error--><div class="fileUpload btn btn-orange">  <img src="{{asset("logo/image-gallery.png")}}" class="icon"><span class="upl" id="upload">Upload Image</span><input type="file" class="upload up" id="up" name="menuPic[]" onchange="readURL(this);" /></div></div><div class="col-sm-8"> <input type="text" class="form-control" name="name[]" placeholder="Dish Name"><input type="text" class="form-control" name="desc[]" placeholder="Description"><input type="number" class="form-control" name="price[]" placeholder="Dish Price"></div><div class="col-sm-1"><a class="btn-check"><i class="fa fa-times"></i></a></div></div>');
    });
     
    $(document).on("click", "a.btn-check" , function() {

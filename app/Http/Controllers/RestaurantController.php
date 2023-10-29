@@ -89,53 +89,52 @@ class RestaurantController extends Controller
             'desc' => 'required',
             'price' => 'required'
         ]);
-
         $restaurantId = session()->get('resId');
-        $resName = Restaurant::where('id',$restaurantId)->select('name')->first();
+        $resName = Restaurant::where('id', $restaurantId)->select('name')->first();
         $Name = $resName->name;
-        $RestaurantPic = $request->file('myFile');
-        $restaurant = Restaurant::find($restaurantId);
-        $pfpName = time()."_".$Name.".png";
-        $RestaurantPic->move(public_path('storage/pfp'),$pfpName);
-        $restaurant->restaurant_pfp = $pfpName;
-        $restaurant->update();
-
+        if ($request->file('myFile')) {
+            $RestaurantPic = $request->file('myFile');
+            $restaurant = Restaurant::find($restaurantId);
+            $pfpName = time() . "_" . $Name . ".png";
+            $RestaurantPic->move(public_path('storage/pfp'), $pfpName);
+            $restaurant->restaurant_pfp = $pfpName;
+            $restaurant->update();
+        }
         // Create menu items 
+        // Save menus to get IDs 
         foreach ($request->input('name') as $key => $value) {
-
             $menu = new RestaurantMenu;
-
             $menu->dish_name = $value;
             $menu->description = $request->input('desc')[$key];
             $menu->price = $request->input('price')[$key];
             $menu->restaurant_id = $restaurantId;
-
             $menu->save();
+
+            // Upload dish images
+            if ($request->hasFile('menuPic')) {
+                if ($request->file('menuPic')[$key]) {
+                    $file = $request->file('menuPic')[$key];
+
+                    // Generate unique file name
+                    $filename = time() . "_" . $Name . "_" . $value . ".png";
+
+                    // Upload image
+                    $file->move(public_path('dishes'), $filename);
+
+                    // Get saved menu
+                    $menu = RestaurantMenu::find($menu->id);
+
+                    // Update dish_pic filename
+                    $menu->dish_pic = $filename;
+                    $menu->update();
+                }
+            }
         }
 
-        // Upload image files
-        // dd($request->file('menuPic'));
-        if($request->hasFile('menuPic')) {
-        foreach ($request->file('menuPic') as $file) {
-            $resId = $menu->restaurant_id;
-            $resName = Restaurant::where('id',$resId)->select('name')->first();
-            $Name = $resName->name;
-            $filename = time() . '_' . $Name.".png";
+        dd("Menu Added Successfully");
 
-            $file->move(public_path('storage/Restaurant_menu'), $filename);
-
-            // Associate with menu
-            $menuPicture = RestaurantMenu::find($menu->id);
-            $menuPicture->dish_pic = $filename;
-            // $menuPicture->filename = $filename;
-            $menuPicture->update();
-        }
-    }
-
-
-        // RestaurantMenu::insert($menus);
-
-        dd("Menu Added Successfully !!!");
+        // return redirect()
+        //     ->with('success', 'Menu uploaded!');
         // return back();
         // return back();
     }
