@@ -11,6 +11,7 @@
 
 <body>
     @include('navbar.navbar')
+    <div class="mt-5"></div>
     <div class="container">
         <h4>Best offers for you</h4>
         <div class="mainOffers">
