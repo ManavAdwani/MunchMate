@@ -6,6 +6,7 @@ use App\Models\Restaurant;
 use App\Models\RestaurantMenu;
 use Illuminate\Http\Request;
 use Session;
+use Carbon\Carbon;
 
 class RestaurantController extends Controller
 {
@@ -89,47 +90,51 @@ class RestaurantController extends Controller
             'price' => 'required'
         ]);
         $restaurantId = session()->get('resId');
-        $isPfp = Restaurant::where('id', $restaurantId)->select('restaurant_pfp', 'name')->first();
-        $pfp = $isPfp->restaurant_pfp ?? 0;
-        $name = $isPfp->name;
-        if ($pfp == 0) {
-            $request->validate([
-                'myFile' => 'required',
-            ]);
+        $resName = Restaurant::where('id', $restaurantId)->select('name')->first();
+        $Name = $resName->name;
+        if ($request->file('myFile')) {
+            $RestaurantPic = $request->file('myFile');
+            $restaurant = Restaurant::find($restaurantId);
+            $pfpName = time() . "_" . $Name . ".png";
+            $RestaurantPic->move(public_path('storage/pfp'), $pfpName);
+            $restaurant->restaurant_pfp = $pfpName;
+            $restaurant->update();
         }
+        // Create menu items 
+        // Save menus to get IDs 
+        foreach ($request->input('name') as $key => $value) {
+            $menu = new RestaurantMenu;
+            $menu->dish_name = $value;
+            $menu->description = $request->input('desc')[$key];
+            $menu->price = $request->input('price')[$key];
+            $menu->restaurant_id = $restaurantId;
+            $menu->save();
 
-        if ($pfp == 0) {
-            $ldate = date('Y-m-d H:i:s');
-            $resImage = $request->file('myFile');
-            if ($request->hasfile('myFile')) {
-                $fileName = $resImage->getClientOriginalName();
-                $resImage->move(public_path('storage/pfp/'), $ldate . "_" . $name);
-                $findRes = Restaurant::find($restaurantId);
-                if ($findRes) {
-                    $findRes->restaurant_pfp = $ldate . "_" . $name;
-                    $findRes->update();
+            // Upload dish images
+            if ($request->hasFile('menuPic')) {
+                if ($request->file('menuPic')[$key]) {
+                    $file = $request->file('menuPic')[$key];
+
+                    // Generate unique file name
+                    $filename = time() . "_" . $Name . "_" . $value . ".png";
+
+                    // Upload image
+                    $file->move(public_path('dishes'), $filename);
+
+                    // Get saved menu
+                    $menu = RestaurantMenu::find($menu->id);
+
+                    // Update dish_pic filename
+                    $menu->dish_pic = $filename;
+                    $menu->update();
                 }
             }
         }
-        $menus = [];
-        foreach ($request->input('name') as $key => $value) {
-            // CHANGES NEEDED
-            $menupic = $request->file('menuPic')[$key];
-            $menuPicName = $menupic->getClientOriginalName();
-            $resImage->move(public_path('storage/menu/'), $ldate . "_" . $menuPicName);
-            $menu = [
-                'dish_name' => $value,
-                'description' => $request->input('desc')[$key],
-                'price' => $request->input('price')[$key],
-                'restaurant_id' => $restaurantId,
-                'dish_pic'=>$menuPicName,
-            ];
-            $menus[] = $menu;
-        }
 
-        RestaurantMenu::insert($menus);
+        dd("Menu Added Successfully");
 
-        dd("Menu Added Successfully !!!");
+        // return redirect()
+        //     ->with('success', 'Menu uploaded!');
         // return back();
         // return back();
     }
