@@ -1,0 +1,70 @@
+.RestaurantHeader_container__2XRhv {
+    margin: 0 16px;
+}
+.RestaurantHeader_wrapper__2GTdS {
+    padding-top: 16px;
+}
+.RestaurantNameAddress_wrapper__24l_g {
+    display: inline-block;
+    margin-right: 16px;
+    width: calc(100% - 120px);
+}
+.RestaurantNameAddress_name__2IaTv {
+    font-size: 1.43rem;
+    font-weight: 600;
+    color: #282c3f;
+    margin-bottom: 8px;
+    text-transform: capitalize;
+}
+.RestaurantNameAddress_cuisines__mBHr2 {
+    font-size: 0.93rem;
+    color: #7e808c;
+    height: calc(0.93rem + 2px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+    white-space: nowrap;
+}
+.RestaurantNameAddress_areaWrapper__3HIxj {
+    display: flex;
+    align-items: center;
+    height: 16px;
+}
+
+.mainbox {
+    display: flex;
+    justify-content: space-between;
+}
+
+.left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.right {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.starss p {
+    display: flex;
+    align-items: center;
+}
+
+@media (max-width: 768px) {
+    .container {
+      width: 100%;
+    }
+  
+    .maindeal {
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+  
+    .subdeals {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+  }

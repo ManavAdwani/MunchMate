@@ -47,7 +47,7 @@
     <div class="container mt-5">
         <div class="topchains-title">
             <h4>Top restaurant chains in Ahmedabad </h4>
-            <p><a href="">View All !</a></p>
+            <p><a href="">View All </a></p>
         </div>
         <div class="chains mt-4 mb-5">
             @foreach($restaurants as $restaurant)
@@ -72,7 +72,7 @@
                     20 min
                 </div>
                 <div class="ordernow mt-5" style="width: 100%">
-                    <button class="btn btn-warning">Order Now</button>
+                    <a href="{{route('showMenu',$restaurant->id)}}" style="width:100%"> <button class="btn btn-warning">Order Now</button></a>
                 </div>
             </div>
             @endforeach
@@ -82,7 +82,7 @@
         <div class="bestrestaurant">
             <div class="bestrestaurant-title">
                 <h4>Best restaurant near you </h4>
-                <p><a href="">View All !</a></p>
+                <p><a href="">View All </a></p>
             </div>
             <div class="mainbestrestaurant">
                 @foreach ($allRes as $res)
