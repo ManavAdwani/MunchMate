@@ -138,4 +138,12 @@ class RestaurantController extends Controller
         // return back();
         // return back();
     }
+
+    public function showMenu(Request $request, $id){
+        $menu = RestaurantMenu::join('restaurants','restaurants.id','=','restaurant_menus.restaurant_id')->where('restaurant_id',$id)->select('restaurants.name','restaurants.email','restaurants.phone','restaurants.restaurant_pfp','restaurant_menus.dish_name','restaurant_menus.description','restaurant_menus.price','restaurant_menus.dish_pic','restaurant_menus.id as menu_id')->get();
+        $name = Restaurant::where('id',$id)->select('name','restaurant_pfp')->first();
+        $resName = $name->name;
+        $resPfp = $name->restaurant_pfp;
+       return view('Menu/menuPage',compact('menu','resName','resPfp'));
+    }
 }

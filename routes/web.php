@@ -4,8 +4,7 @@ use App\Http\Controllers\MainController;
 use App\Http\Controllers\RestaurantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\HelpController;
-
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,5 +58,6 @@ Route::get('addMenu', function () {
 })->name('addMenu');
 
 Route::post('saveMenu',[RestaurantController::class, 'saveMenu'])->name('saveMenu');
+Route::get('menu/{id}',[RestaurantController::class,'showMenu'])->name('showMenu');
+Route::get('cart',[CartController::class,'index'])->name('cart');
 
-Route::get('help',[HelpController::class, 'helpPage'])->name('helpPage');
