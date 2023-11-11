@@ -59,5 +59,5 @@ Route::get('addMenu', function () {
 
 Route::post('saveMenu',[RestaurantController::class, 'saveMenu'])->name('saveMenu');
 Route::get('menu/{id}',[RestaurantController::class,'showMenu'])->name('showMenu');
-Route::get('cart',[CartController::class,'index'])->name('cart');
-
+Route::get('addProduct/{id}',[CartController::class,'addProduct'])->name('addProduct');
+Route::get('cart',[CartController::class,'index'])->name('cartPage');
