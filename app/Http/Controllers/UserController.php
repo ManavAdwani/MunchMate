@@ -41,7 +41,8 @@ class UserController extends Controller
       'pass' => 'required'
     ]);
     $phone = $request->input('phone');
-    $user = User::where('phone_number', $phone)->select('username')->first();
+    $user = User::where('phone_number', $phone)->select('username','id')->first();
+    // dd($user);
     if ($user != null) {
       $checkPass = User::where('phone_number', $phone)->select('password', 'username', 'role')->first();
       $password = $checkPass->password;
@@ -50,6 +51,7 @@ class UserController extends Controller
           if ($checkPass->role == 1) {
             session()->put('username', $user->username);
             session()->put('userId',$user->id);
+            // dd($user->id);
             return redirect('/');
           } elseif ($checkPass->role == 2) {
             session()->put('username', $user->username);

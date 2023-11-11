@@ -22,7 +22,7 @@
 
 <body>
     @include('navbar.navbar');
-    <div class="container">
+    <div class="container" style="margin-top: 120px;">
         <div class="mainbox">
             <div class="left">
                 <p class="RestaurantNameAddress_name__2IaTv">{{$resName}}</p>
@@ -86,7 +86,7 @@
                     <p class="foodname mb-0">{{$food->dish_name}}</p>
                     <p class="food_desc mb-0" style="color:grey">{{$food->description}}</p>
                     <p class="foodprice">₹{{$food->price}}</p>
-                   <a href="{{$food->menu_id}}"> <button class="btn btn-warning" style="width: 100px;">Add</button></a>
+                   <a href="{{route('addProduct',$food->menu_id)}}"> <button class="btn btn-warning" style="width: 100px;">Add</button></a>
                 </div>
                 <div class="rightMenu">
                     <img src="{{asset('dishes/'.$food->dish_pic)}}" alt="" style="width:100px;height:100px;border-radius:20px">
