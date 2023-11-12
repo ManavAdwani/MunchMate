@@ -11,7 +11,9 @@ class CartController extends Controller
 {
     public function index()
     {
-        return "Cart Page";
+        $userId = session()->get('userId');
+        $products = Cart::where('user_id', $userId)->join('users','users.id','=','carts.user_id')->join('restaurant_menus','restaurant_menus.id','=','carts.product_id')->select('restaurant_menus.dish_name as dish_name','restaurant_menus.description as dish_desc','restaurant_menus.price as price','restaurant_menus.dish_pic as dish_pic')->get();
+        return view('Cart.cart',compact('products'));
     }
 
 
@@ -19,15 +21,15 @@ class CartController extends Controller
     {
         $userId = session()->get('userId');
         $productId = $id;
-    
+
         // Get details of the selected product
         $getDetails = RestaurantMenu::where('id', $productId)->select('price', 'restaurant_id')->first();
         $price = $getDetails->price;
         $resId = $getDetails->restaurant_id;
-    
+
         // Check if the user has any items in the cart
         $userCart = Cart::where('user_id', $userId)->first();
-    
+
         if (!$userCart) {
             // User's cart is empty, add a new item
             $cart = new Cart();
@@ -37,21 +39,21 @@ class CartController extends Controller
             $cart->quantity = 1;
             $cart->price = $price;
             $cart->save();
-    
+
             return back();
         }
-    
+
         // Check if the product is already in the user's cart
         $isAlreadyThere = Cart::where('product_id', $productId)->where('user_id', $userId)->first();
-    
+
         if ($isAlreadyThere) {
             // Product is already in the cart, update quantity
             $isAlreadyThere->quantity += 1;
             $isAlreadyThere->save();
-    
+
             return back();
         }
-    
+
         // Product is not in the cart, check if it belongs to the same restaurant
         if ($userCart->restaurant_id == $resId) {
             // Product belongs to the same restaurant, add a new item
@@ -62,7 +64,7 @@ class CartController extends Controller
             $cart->quantity = 1;
             $cart->price = $price;
             $cart->save();
-    
+
             return back();
         } else {
             // Product does not belong to the same restaurant, handle this case as needed
@@ -75,5 +77,4 @@ class CartController extends Controller
           </script>';
         }
     }
-    
 }
