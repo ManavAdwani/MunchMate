@@ -61,3 +61,4 @@ Route::post('saveMenu',[RestaurantController::class, 'saveMenu'])->name('saveMen
 Route::get('menu/{id}',[RestaurantController::class,'showMenu'])->name('showMenu');
 Route::get('addProduct/{id}',[CartController::class,'addProduct'])->name('addProduct');
 Route::get('cart',[CartController::class,'index'])->name('cartPage');
+Route::post('/update-quantity',[CartController::class,'updateQuantity'])->name('updateQuantity');

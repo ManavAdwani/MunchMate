@@ -126,3 +126,25 @@
 .minus:hover {
     background: #e6e6e6;
 }
+
+.cartout {
+    float: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 300px;
+    padding: 20px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+}
+
+.subtotal,
+.tax,
+.coupon-code,
+.grand-total {
+    margin-bottom: 10px;
+}
+
+.grand-total {
+    font-weight: bold;
+}
