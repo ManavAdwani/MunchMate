@@ -12,15 +12,15 @@ class CartController extends Controller
     public function index()
     {
         $userId = session()->get('userId');
-        $products = Cart::where('user_id', $userId)->join('users', 'users.id', '=', 'carts.user_id')->join('restaurant_menus', 'restaurant_menus.id', '=', 'carts.product_id')->select('carts.id as cartId','restaurant_menus.dish_name as dish_name', 'restaurant_menus.description as dish_desc', 'restaurant_menus.price as price', 'restaurant_menus.dish_pic as dish_pic','carts.quantity as qty')->get();
+        $products = Cart::where('user_id', $userId)->join('users', 'users.id', '=', 'carts.user_id')->join('restaurant_menus', 'restaurant_menus.id', '=', 'carts.product_id')->select('carts.id as cartId', 'restaurant_menus.dish_name as dish_name', 'restaurant_menus.description as dish_desc', 'restaurant_menus.price as price', 'restaurant_menus.dish_pic as dish_pic', 'carts.quantity as qty')->get();
 
         $totalPrice = 0;
         foreach ($products as $product) {
-            $totalPrice += $product->qty * $product->price; 
+            $totalPrice += $product->qty * $product->price;
         }
-        $grandTotal = $totalPrice+45;
+        $grandTotal = $totalPrice + 45;
         $totalCount = Cart::where('user_id', $userId)->join('users', 'users.id', '=', 'carts.user_id')->join('restaurant_menus', 'restaurant_menus.id', '=', 'carts.product_id')->select('restaurant_menus.dish_name as dish_name', 'restaurant_menus.description as dish_desc', 'restaurant_menus.price as price', 'restaurant_menus.dish_pic as dish_pic')->count();
-        return view('Cart.cart', compact('products', 'totalCount','totalPrice','grandTotal'));
+        return view('Cart.cart', compact('products', 'totalCount', 'totalPrice', 'grandTotal'));
     }
 
 
@@ -85,14 +85,24 @@ class CartController extends Controller
         }
     }
 
-    public function updateQuantity(Request $request){
-      $cartId = $request->id;
-      $qty = $request->qty;
+    public function updateQuantity(Request $request)
+    {
+        // dd($request->id);
+        try {
+            $cartId = $request->id;
+            $qty = $request->qty;
 
-      $findProduct = Cart::find($cartId);
-      $findProduct->quantity = $qty;
-      $findProduct->update();
-    //   dd($findProduct);
-      return response('Cart Updated');
+            $findProduct = Cart::find($cartId);
+            if (!$findProduct) {
+                return response()->json(['error' => 'Product not found.'], 404);
+            }
+
+            $findProduct->quantity = $qty;
+            $findProduct->update();
+
+            return response()->json(['message' => 'Cart Updated']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }
