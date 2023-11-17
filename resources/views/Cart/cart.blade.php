@@ -72,7 +72,7 @@
             <div class="subtotal">Items Total: <b>₹{{$totalPrice}}</b></div>
             <div class="tax">Delivery charges: <b>₹45</b></div>
             <div class="grand-total" id="grand-total">Grand total: &nbsp;₹{{$grandTotal}}</div>
-            <button class="btn btn-warning" style="width: 100%">Order Now </button>
+            <a href="{{route('orders',[$userId,$restaurant_id])}}" class="btn btn-warning" style="width: 100%">Order Now</a>
         </div>
     </div>
 </body>

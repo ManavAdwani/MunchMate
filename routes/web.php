@@ -5,6 +5,7 @@ use App\Http\Controllers\RestaurantController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\OrdersController;
 
 /*
 |--------------------------------------------------------------------------
@@ -62,3 +63,5 @@ Route::get('menu/{id}',[RestaurantController::class,'showMenu'])->name('showMenu
 Route::get('addProduct/{id}',[CartController::class,'addProduct'])->name('addProduct');
 Route::get('cart',[CartController::class,'index'])->name('cartPage');
 Route::post('/update-quantity',[CartController::class,'updateQuantity'])->name('updateQuantity');
+
+Route::get('orders/{userId}/{restaurantid}',[OrdersController::class,'index'])->name('orders');
