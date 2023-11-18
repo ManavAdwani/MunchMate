@@ -123,42 +123,62 @@
                     <thead class="thead-dark">
                         <tr>
                             <th>Order ID</th>
-                            <th>Product Name</th>
+                            <th>User Name</th>
                             <th>Description</th>
                             <th>Price</th>
-                            <th>Quantity</th>
+                            {{-- <th>Quantity</th> --}}
                             <th>Total Price</th>
+                            <th>Status</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($allOrderedProducts as $orderDetails)
-                            @foreach($orderDetails['orderedProducts'] as $product)
-                                <tr>
-                                    <td>{{ $orderDetails['order']->id }}</td>
-                                    <td>{{ $product->name }}</td>
-                                    <td>{{ $product->description }}</td>
-                                    <td>{{ $product->price }}</td>
-                                    <td>NILL</td>
-                                    {{-- <td>
-                                        @php
-                                            $quantity = App\Models\Cart::where('user_id', $orderDetails['order']->user_id)
-                                                ->where('restaurant_id', $resId)
-                                                ->where('product_id', $product->id)
-                                                ->value('quantity');
-                                        @endphp
-                                        {{ $quantity }}
-                                    </td> --}}
-                                    <td>{{ $product->totalPrice }}</td>
-                                </tr>
-                            @endforeach
-                            <tr>
-                                <td colspan="5" style="background: gray; color:black;font-weight:800">Total Order Price</td>
-                                <td style="background: gray; color:black;font-weight:800">{{ $orderDetails['orderTotalPrice'] }}</td>
-                            </tr>
+                        <tr class="order-row">
+                            <td>{{ $orderDetails['order']->id }}</td>
+                            <td>{{ $orderDetails['userName'] }}</td>
+                            <td>{{ $orderDetails['orderedProducts'][0]->description }}</td>
+                            <td>{{ $orderDetails['orderedProducts'][0]->price }}</td>
+                            {{-- <td>{{ $orderDetails['orderedProducts'][0]->quantity }}</td> --}}
+                            <td>{{ $orderDetails['orderedProducts'][0]->totalPrice }}</td>
+                            <td>
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                     Change status
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                      <li><a class="dropdown-item" href="#">Order Recieved</a></li>
+                                      <li><a class="dropdown-item" href="#">Order Accepted</a></li>
+                                      <li><a class="dropdown-item" href="#">Order Packed</a></li>
+                                      <li><a class="dropdown-item" href="#">Order Picked Up</a></li>
+                                    </ul>
+                                  </div>
+                            </td>
+                            <td>
+                                <button class="btn btn-info view-details"
+                                    data-order-id="{{ $orderDetails['order']->id }}">
+                                    View Details
+                                </button>
+                            </td>
+                        </tr>
+                        <tr class="order-details" id="details-{{ $orderDetails['order']->id }}" style="display: none;">
+                            <td colspan="7">
+                                <!-- Details of the order -->
+                                <!-- You can customize this part based on your needs -->
+                                Order Details for Order ID {{ $orderDetails['order']->id }}
+                                <ul>
+                                    @foreach($orderDetails['orderedProducts'] as $product)
+                                    <li>
+                                        {{ $product->dish_name }} - {{ $product->quantity }} items
+                                    </li>
+                                    @endforeach
+                                </ul>
+                            </td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>
-                
+
             </div>
         </div>
     </div>
@@ -167,40 +187,12 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
     <script>
-        function pollForNewOrders() {
-        setInterval(function() {
-            $.ajax({
-                url: '/Restaurant',
-                type: 'GET',
-                dataType: 'json',
-                success: function(response) {
-                    updateTable(response.newOrders);
-                },
-                error: function(error) {
-                    console.error('Error fetching new orders:', error);
-                }
+        $(document).ready(function() {
+            $('.view-details').on('click', function() {
+                var orderId = $(this).data('order-id');
+                $('#details-' + orderId).toggle();
             });
-        }, 5000); // Poll every 5 seconds (adjust as needed)
-    }
-
-    function updateTable(newOrders) {
-        var tableBody = $('#ordersTables tbody');
-        tableBody.empty();
-
-        newOrders.forEach(function(order) {
-            var newRow = '<tr>' +
-                '<td>' + order.id + '</td>' +
-                '<td>' + order.customer_name + '</td>' +
-                // Add more columns as needed
-                '</tr>';
-            tableBody.append(newRow);
         });
-    }
-
-    // Start polling when the page loads
-    $(document).ready(function() {
-        pollForNewOrders();
-    });
     </script>
 </body>
 
