@@ -2,14 +2,76 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\order;
 use App\Models\Restaurant;
 use App\Models\RestaurantMenu;
+use App\Models\User;
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Session;
 use Carbon\Carbon;
 
 class RestaurantController extends Controller
 {
+    public function index()
+{
+    $userId = session()->get('userId');
+    $getName = User::where('id', $userId)->select('username')->first();
+    $name = $getName->username;
+    $getResId = Restaurant::where('owner', $userId)->select('name', 'id')->first();
+    $resId = $getResId->id;
+
+    // Check if it's an AJAX request
+    if (request()->ajax()) {
+        // If it's an AJAX request, fetch new orders and return JSON response
+        $newOrders = Order::where('restaurant_id', $resId)->get()->toArray();
+        return response()->json(['newOrders' => $newOrders]);
+    }
+
+    // If it's not an AJAX request, render the initial view with existing orders
+    $initialOrders = Order::where('restaurant_id', $resId)->get();
+    $allOrderedProducts = [];
+
+    foreach ($initialOrders as $order) {
+        $userCart = Cart::where('user_id', $order->user_id)
+            ->where('restaurant_id', $resId)
+            ->pluck('product_id')
+            ->toArray();
+
+        // Retrieve products from the restaurant_menus table based on the product_id
+        $orderedProducts = RestaurantMenu::whereIn('id', $userCart)->get();
+        $orderTotalPrice = 0;
+
+        // Calculate total price for each ordered product
+        foreach ($orderedProducts as $product) {
+            $quantity = Cart::where('user_id', $order->user_id)
+                ->where('restaurant_id', $resId)
+                ->where('product_id', $product->id)
+                ->value('quantity');
+
+            // Assuming your RestaurantMenu model has a 'price' attribute
+            $totalPrice = $product->price * $quantity;
+
+            // Add the total price for the current product to the order's total
+            $orderTotalPrice += $totalPrice;
+
+            // You can use $totalPrice as needed for each product
+            $product->totalPrice = $totalPrice;
+        }
+
+        // Store ordered products and total price in an array
+        $allOrderedProducts[] = [
+            'order' => $order,
+            'orderedProducts' => $orderedProducts,
+            'orderTotalPrice' => $orderTotalPrice,
+        ];
+        // dd($allOrderedProducts);
+    }
+
+    return view('Restaurant.index', compact('name', 'allOrderedProducts'))->with('userId', $userId);
+}
+
+
     public function addRestaurant()
     {
         return view('Restaurant.addRestaurant');
@@ -139,11 +201,12 @@ class RestaurantController extends Controller
         // return back();
     }
 
-    public function showMenu(Request $request, $id){
-        $menu = RestaurantMenu::join('restaurants','restaurants.id','=','restaurant_menus.restaurant_id')->where('restaurant_id',$id)->select('restaurants.name','restaurants.email','restaurants.phone','restaurants.restaurant_pfp','restaurant_menus.dish_name','restaurant_menus.description','restaurant_menus.price','restaurant_menus.dish_pic','restaurant_menus.id as menu_id')->get();
-        $name = Restaurant::where('id',$id)->select('name','restaurant_pfp')->first();
+    public function showMenu(Request $request, $id)
+    {
+        $menu = RestaurantMenu::join('restaurants', 'restaurants.id', '=', 'restaurant_menus.restaurant_id')->where('restaurant_id', $id)->select('restaurants.name', 'restaurants.email', 'restaurants.phone', 'restaurants.restaurant_pfp', 'restaurant_menus.dish_name', 'restaurant_menus.description', 'restaurant_menus.price', 'restaurant_menus.dish_pic', 'restaurant_menus.id as menu_id')->get();
+        $name = Restaurant::where('id', $id)->select('name', 'restaurant_pfp')->first();
         $resName = $name->name;
         $resPfp = $name->restaurant_pfp;
-       return view('Menu/menuPage',compact('menu','resName','resPfp'));
+        return view('Menu/menuPage', compact('menu', 'resName', 'resPfp'));
     }
 }

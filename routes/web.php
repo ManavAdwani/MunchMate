@@ -41,9 +41,11 @@ Route::get('signIn',[MainController::class,'signIn'])->name('sign_in');
 Route::post('signUp', [UserController::class, 'signUp'])->name('signup');
 Route::post('login', [UserController::class, 'login'])->name('login');
 
-Route::get('Restaurant', function () {
-    return view('Restaurant.index');
-})->name('restaurantIndex');
+// Route::get('Restaurant', function () {
+//     return view('Restaurant.index');
+// })->name('restaurantIndex');
+
+Route::get('Restaurant',[RestaurantController::class,'index'])->name('indexpage');
 
 Route::get('RestaurantPage', function () {
     return view('Restaurant.RestaurantPage');
@@ -65,3 +67,4 @@ Route::get('cart',[CartController::class,'index'])->name('cartPage');
 Route::post('/update-quantity',[CartController::class,'updateQuantity'])->name('updateQuantity');
 
 Route::get('orders/{userId}/{restaurantid}',[OrdersController::class,'index'])->name('orders');
+Route::get('get-new-orders', [RestaurantController::class, 'getNewOrders'])->name('getNewOrders');
