@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\order;
+use App\Models\Order;
 use App\Models\Restaurant;
 use App\Models\RestaurantMenu;
 use App\Models\User;
