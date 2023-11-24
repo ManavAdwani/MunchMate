@@ -68,3 +68,4 @@ Route::post('/update-quantity',[CartController::class,'updateQuantity'])->name('
 
 Route::get('orders/{userId}/{restaurantid}',[OrdersController::class,'index'])->name('orders');
 Route::get('get-new-orders', [RestaurantController::class, 'getNewOrders'])->name('getNewOrders');
+Route::get('changeOrderStatus/{OrderId}/{orderStatus}',[RestaurantController::class,'changeOrderStatus'])->name('changeOrderStatus');

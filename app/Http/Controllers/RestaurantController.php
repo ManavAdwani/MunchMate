@@ -68,7 +68,7 @@ class RestaurantController extends Controller
                     'orderedProducts' => $orderedProducts,
                     'orderTotalPrice' => $orderTotalPrice,
                 ];
-                // print_r($allOrderedProducts);
+                // dd($allOrderedProducts);
             }
             return response()->json(['newOrders' => $newOrders]);
         }
@@ -91,6 +91,8 @@ class RestaurantController extends Controller
             // Retrieve products from the restaurant_menus table based on the product_id
             $orderedProducts = RestaurantMenu::whereIn('id', $userCart)->get();
             $orderTotalPrice = 0;
+            $quantities = [];
+
 
             // Calculate total price for each ordered product
             foreach ($orderedProducts as $product) {
@@ -101,7 +103,7 @@ class RestaurantController extends Controller
 
                 // Assuming your RestaurantMenu model has a 'price' attribute
                 $totalPrice = $product->price * $quantity;
-
+                $quantities[$product->id] = $quantity ?? 0;
                 // Add the total price for the current product to the order's total
                 $orderTotalPrice += $totalPrice;
 
@@ -115,8 +117,8 @@ class RestaurantController extends Controller
                 'userName' => $userName,
                 'orderedProducts' => $orderedProducts,
                 'orderTotalPrice' => $orderTotalPrice,
+                'quantities' => $quantities
             ];
-            // print_r($allOrderedProducts);
         }
 
         return view('Restaurant.index', compact('name', 'allOrderedProducts', 'resId'))->with('userId', $userId);
@@ -259,5 +261,25 @@ class RestaurantController extends Controller
         $resName = $name->name;
         $resPfp = $name->restaurant_pfp;
         return view('Menu/menuPage', compact('menu', 'resName', 'resPfp'));
+    }
+
+    public function changeOrderStatus(Request $request, $orderId, $orderStatus)
+    {
+        $changeStatus = Order::find($orderId);
+        // dd($orderStatus);
+        if ($orderStatus == 2) {
+            $changeStatus->status = "Order Accepted";
+        }
+        if ($orderStatus == 3) {
+            $changeStatus->status = "Order Ready for pickup";
+        }
+        if ($orderStatus == 4) {
+            $changeStatus->status = "Order Picked";
+        }
+        if ($orderStatus == 5) {
+            $changeStatus->status = "Order delivered";
+        }
+        $changeStatus->update();
+        return back()->with('status','Order Status Changed Successfully');
     }
 }
