@@ -26,8 +26,7 @@ www.github.com/ManavAdwani
 
 ## Screenshots
 
-<a href="https://ibb.co/8jVG2LD"><img src="https://i.ibb.co/RCWtPkp/Screenshot-from-2023-11-25-10-29-21.png" alt="Screenshot-from-2023-11-25-10-29-21" border="0"></a>
-
+<a href="https://ibb.co/cTnKNbC"><img src="https://i.ibb.co/88Znjzd/Screenshot-from-2023-11-25-10-29-21-1.png" alt="Screenshot-from-2023-11-25-10-29-21-1" border="0"></a>
 
 ## Tech Stack
 
