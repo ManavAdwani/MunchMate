@@ -26,7 +26,7 @@ www.github.com/ManavAdwani
 
 ## Screenshots
 
-![App Screenshot](https://ibb.co/8jVG2LD)
+![App Screenshot](https://camo.githubusercontent.com/627bf3bdfc8e478775329079047afdb46168ac807831ad65883b49f2f43f4af9/68747470733a2f2f6962622e636f2f386a5647324c44)
 
 
 ## Tech Stack
