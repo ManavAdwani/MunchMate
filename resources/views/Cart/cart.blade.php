@@ -42,7 +42,7 @@
                     <img src="{{asset('dishes/'.$product->dish_pic)}}" alt="">
                     <div class="name" style="display: inline-block;">
                         <p style="font-family: 'Comic Sans MS', cursive; font-size:20px">{{$product->dish_name}}</p>
-                        <p style="font-family: 'Comic Sans MS', cursive; font-size:15px">{{$product->dish_desc}}</p>
+                        <p style="font-family: 'Comic Sans MS', cursive; font-size:15px; width:100px;">{{$product->dish_desc}}</p>
                     </div>
                 </div>
                 <div class="quantity buttons_added">

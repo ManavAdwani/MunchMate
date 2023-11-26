@@ -67,6 +67,8 @@
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
     border-radius: 15px;
     align-items: center;
+    /* margin-bottom: 10px; Adjust the margin as needed */
+
 }
 
 .left {
@@ -78,22 +80,32 @@
     width: 100px;
     height: 100px;
     border-radius: 50%;
+    margin-right: 10px;
+
 }
 
 .right {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
+    /* display: flex; */
+    /* align-items: center; */
+    /* justify-content: center; */
     margin-right: 20px;
 }
 
 .name {
-    margin-left: 20px;
+    margin-left: 10px;
+}
+
+.right span{
+    /* margin: 20px; */
+    margin-left: 80px;
 }
 
 .quantity {
     display: flex;
     align-items: center;
+    margin-left: auto;
+    margin-right: 100px;
+
 }
 
 .input-text {
