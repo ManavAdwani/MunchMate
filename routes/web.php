@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrdersController;
+use App\Http\Controllers\PaymentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,6 +67,14 @@ Route::get('addProduct/{id}',[CartController::class,'addProduct'])->name('addPro
 Route::get('cart',[CartController::class,'index'])->name('cartPage');
 Route::post('/update-quantity',[CartController::class,'updateQuantity'])->name('updateQuantity');
 
-Route::get('orders/{userId}/{restaurantid}',[OrdersController::class,'index'])->name('orders');
+// Route::get('orders/{userId}/{restaurantid}',[OrdersController::class,'index'])->name('orders');
 Route::get('get-new-orders', [RestaurantController::class, 'getNewOrders'])->name('getNewOrders');
 Route::get('changeOrderStatus/{OrderId}/{orderStatus}',[RestaurantController::class,'changeOrderStatus'])->name('changeOrderStatus');
+Route::get('addAddress/{userId}/{restaurantId}', [
+    'as' => 'paymentPage',
+    'uses' => 'App\Http\Controllers\PaymentController@index'
+]);
+Route::post('/checkout',[PaymentController::class,'checkout'])->name('checkout');
+Route::get('success',[PaymentController::class,'success'])->name('success');
+Route::get('orderCheckout/{userId}/{restaurantid}',[PaymentController::class,'index'])->name('orderCheckout');
+Route::get('backToCart/{orderId}',[PaymentController::class,'backToCart'])->name('backToCart');

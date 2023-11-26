@@ -23,6 +23,6 @@ class OrdersController extends Controller
       $findCart->delete();
     }
 
-    return view('orderplaced');
+    return view('Payment.index');
   }
 }

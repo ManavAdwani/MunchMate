@@ -24,6 +24,7 @@ class CartController extends Controller
                     }
                     $grandTotal = $totalPrice + 45;
                     $totalCount = Cart::where('user_id', $userId)->join('users', 'users.id', '=', 'carts.user_id')->join('restaurant_menus', 'restaurant_menus.id', '=', 'carts.product_id')->select('restaurant_menus.dish_name as dish_name', 'restaurant_menus.description as dish_desc', 'restaurant_menus.price as price', 'restaurant_menus.dish_pic as dish_pic')->count();
+                    session()->put('grandTotal', $grandTotal);
                     return view('Cart.cart', compact('products', 'totalCount', 'totalPrice', 'grandTotal','userId','restaurant_id'));
                 }else{
                     return view('Cart.emptyCart');
