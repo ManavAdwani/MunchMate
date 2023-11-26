@@ -42,7 +42,7 @@
                     <img src="{{asset('dishes/'.$product->dish_pic)}}" alt="">
                     <div class="name" style="display: inline-block;">
                         <p style="font-family: 'Comic Sans MS', cursive; font-size:20px">{{$product->dish_name}}</p>
-                        <p style="font-family: 'Comic Sans MS', cursive; font-size:15px; width:100px;">{{$product->dish_desc}}</p>
+                        <p style="font-family: 'Comic Sans MS', cursive; font-size:15px">{{$product->dish_desc}}</p>
                     </div>
                 </div>
                 <div class="quantity buttons_added">
@@ -72,7 +72,7 @@
             <div class="subtotal">Items Total: <b>₹{{$totalPrice}}</b></div>
             <div class="tax">Delivery charges: <b>₹45</b></div>
             <div class="grand-total" id="grand-total">Grand total: &nbsp;₹{{$grandTotal}}</div>
-            <a href="{{route('orders',[$userId,$restaurant_id])}}" class="btn btn-warning" style="width: 100%">Order Now</a>
+            <a href="{{route('orderCheckout',[$userId,$restaurant_id])}}" class="btn btn-warning" style="width: 100%">Order Now</a>
         </div>
     </div>
 </body>
