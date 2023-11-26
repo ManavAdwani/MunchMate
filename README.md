@@ -19,7 +19,7 @@ www.github.com/ManavAdwani
 
 - Light/dark mode toggle
 - All Screen Friendly UI
-- Payment Method Integrated
+- Payment Method Integrated (Stripe Payment Method used)
 - live updates
 - User, Restaurant, Delivery Panels
 
