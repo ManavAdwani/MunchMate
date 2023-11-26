@@ -11,6 +11,7 @@
 </head>
 
 <body>
+    @include('navbar.navbar');
         <div class="container-fluid  mt-100">
             <div class="card-body cart">
                 <div class="col-sm-12 empty-cart-cls text-center">
