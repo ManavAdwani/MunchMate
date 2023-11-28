@@ -59,6 +59,11 @@ class PaymentController extends Controller
         return redirect()->away($session->url);
     }
     public function success(){
+        $userId = session()->get('userId');
+        $getLastOrder = Cart::where('user_id',$userId)->orderBy('id','desc')->first();
+        if(!empty($getLastOrder)){
+            $getLastOrder->delete();
+        }
         return view('orderplaced');
     }
 
