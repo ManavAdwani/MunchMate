@@ -13,6 +13,19 @@
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
 </head>
+<style>
+    .cart-item-count {
+    position: relative;
+    top: -8px;
+    left: 8px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}
+
+</style>
 
 <body>
     <div class="navigation-wrap bg-light start-header start-style">
@@ -49,10 +62,14 @@
                                     <a class="nav-link" href="#">Contact us</a>
                                 </li>
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                    <a class="nav-link" href="{{route('cartPage')}}"><span class="material-symbols-outlined">
-                                        shopping_cart
-                                        </span></a>
+                                    <a class="nav-link" href="{{ route('cartPage') }}">
+                                        <span class="material-symbols-outlined">
+                                            shopping_cart
+                                        </span>
+                                        <span id="cartItemCount" class="cart-item-count"></span>
+                                    </a>
                                 </li>
+                                
                             </ul>
                         </div>
 
@@ -65,5 +82,49 @@
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
     crossorigin="anonymous"></script>
 <script src="{{asset('js/index.js')}}"></script>
+<script>
+</script>
+<!-- Include this script at the end of your HTML body or in your script section -->
+<script>
+    // Assume you have a function to get the current cart item count
+    function getCartItemCount() {
+        var route = {{route('countItems')}};
+        // Replace this with your actual logic to fetch the count from your backend or local storage
+        $.ajax({
+            method: 'POST',
+            url: route,
+            headers: {
+                'X-CSRF-TOKEN': token
+            },
+            data: {
+                'id': {{session()->get('userId')}},
+            },
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (xhr, status, error) {
+                console.error(xhr.responseText); // Log the full error response for debugging
+            }
+        }); // Replace 5 with the actual count
+    }
+
+    // Update the cart item count on page load
+    document.addEventListener('DOMContentLoaded', function () {
+        updateCartItemCount();
+    });
+
+    // Function to update the cart item count
+    function updateCartItemCount() {
+        var cartItemCountElement = document.getElementById('cartItemCount');
+        if (cartItemCountElement) {
+            var itemCount = getCartItemCount();
+            cartItemCountElement.textContent = itemCount > 9 ? '9+' : itemCount;
+            cartItemCountElement.style.display = itemCount > 0 ? 'inline-block' : 'none';
+        }
+    }
+
+    // You can call updateCartItemCount() whenever the cart is updated
+</script>
+
 
 </html>
