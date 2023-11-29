@@ -124,4 +124,8 @@ class CartController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function countItems(Request $request){
+        dd($request);
+    }
 }

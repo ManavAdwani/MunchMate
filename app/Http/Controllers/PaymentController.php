@@ -10,17 +10,6 @@ use App\Models\User;
 
 class PaymentController extends Controller
 {
-    public function index(Request $request,$userId,$restaurantId){
-        $order = new Order;
-        $order->user_id = $userId;
-        $order->restaurant_id = $restaurantId;
-        $order->status = "Order Recieved";
-        $order->payment = "Online";
-        $order->notes = "";
-        $order->save();
-        $orderId = $order->id;
-        return view('Payment.index')->with('orderId',$orderId);
-    }
     public function checkout(Request $request){
         $address = New Address();
         $email = $request->email;
