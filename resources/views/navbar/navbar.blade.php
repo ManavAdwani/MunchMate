@@ -107,13 +107,14 @@
             }
         }); // Replace 5 with the actual count
     }
-
+    
     // Update the cart item count on page load
     document.addEventListener('DOMContentLoaded', function () {
         updateCartItemCount();
     });
-
+    
     // Function to update the cart item count
+    // var itemCount = 2;
     function updateCartItemCount() {
         var cartItemCountElement = document.getElementById('cartItemCount');
         if (cartItemCountElement) {

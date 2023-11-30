@@ -29,7 +29,7 @@
                 <form class="row g-3">
                     <div class="col-12">
                         <label for="inputEmail4" class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" id="inputEmail4"  placeholder="Enter Email">
+                        <input type="email" value="{{session()->get('userId')}}" name="email" class="form-control" id="inputEmail4"  placeholder="Enter Email">
                     </div>
                     <div class="col-12 mt-3">
                         <label for="inputAddress" class="form-label">Address</label>
@@ -40,16 +40,17 @@
                         <input type="text" name="address2" class="form-control" id="inputAddress2"
                             placeholder="Apartment, studio, or floor">
                     </div>
-                    <div class="col-md-6 mt-3">
-                        <label for="inputCity" class="form-label">City</label>
-                        <select id="inputState" name="city" class="form-select">
-                            <option value="" selected disabled>Select City</option>
-                        </select>
-                    </div>
+                   
                     <div class="col-md-4 mt-3">
                         <label for="inputState" class="form-label">State</label>
                         <select id="inputState" name="state" class="form-select">
                             <option value="" selected disabled>Select State</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 mt-3">
+                        <label for="inputCity" class="form-label">City</label>
+                        <select id="inputCity" name="city" class="form-select">
+                            <option value="" selected disabled>Select City</option>
                         </select>
                     </div>
                     <div class="col-md-2 mt-3">

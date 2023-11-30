@@ -29,22 +29,10 @@ Route::get('restaurantNav', function () {
     return view('navbar.RestaurantNav');
 });
 
-// Route::get('signIn', function () {
-//     // if (session()->get('username')) {
-//     // return redirect('/');
-//     // } else {
-//     return view('Sign in.sign_in');
-//     // }
-// })->name('sign_in');
-
 Route::get('signIn',[MainController::class,'signIn'])->name('sign_in');
 
 Route::post('signUp', [UserController::class, 'signUp'])->name('signup');
 Route::post('login', [UserController::class, 'login'])->name('login');
-
-// Route::get('Restaurant', function () {
-//     return view('Restaurant.index');
-// })->name('restaurantIndex');
 
 Route::get('Restaurant',[RestaurantController::class,'index'])->name('indexpage');
 
@@ -67,7 +55,6 @@ Route::get('addProduct/{id}',[CartController::class,'addProduct'])->name('addPro
 Route::get('cart',[CartController::class,'index'])->name('cartPage');
 Route::post('/update-quantity',[CartController::class,'updateQuantity'])->name('updateQuantity');
 
-// Route::get('orders/{userId}/{restaurantid}',[OrdersController::class,'index'])->name('orders');
 Route::get('get-new-orders', [RestaurantController::class, 'getNewOrders'])->name('getNewOrders');
 Route::get('changeOrderStatus/{OrderId}/{orderStatus}',[RestaurantController::class,'changeOrderStatus'])->name('changeOrderStatus');
 Route::get('addAddress/{userId}/{restaurantId}', [
@@ -79,3 +66,4 @@ Route::get('success',[PaymentController::class,'success'])->name('success');
 Route::get('orderCheckout/{userId}/{restaurantid}',[OrdersController::class,'index'])->name('orderCheckout');
 Route::get('backToCart/{orderId}',[PaymentController::class,'backToCart'])->name('backToCart');
 Route::post('countItems',[CartController::class,'countItems'])->name('countItems');
+Route::get('deleteCartItem/{cartId}',[CartController::class,'deleteItem'])->name('deleteItem');

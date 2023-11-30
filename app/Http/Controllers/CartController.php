@@ -47,7 +47,10 @@ class CartController extends Controller
     {
         $userId = session()->get('userId');
         $productId = $id;
-
+        if(empty($userId)){
+            return view('Sign in.sign_in');
+        }else{
+           
         // Get details of the selected product
         $getDetails = RestaurantMenu::where('id', $productId)->select('price', 'restaurant_id')->first();
         $price = $getDetails->price;
@@ -102,6 +105,8 @@ class CartController extends Controller
             }
           </script>';
         }
+         
+    }
     }
 
     public function updateQuantity(Request $request)
@@ -127,5 +132,15 @@ class CartController extends Controller
 
     public function countItems(Request $request){
         dd($request);
+    }
+
+    public function deleteItem(Request $request, $cartId){
+        $findProduct = Cart::find($cartId);
+        if ($findProduct) {
+            $findProduct->delete();
+            return back()->with('success', 'Item deleted successfully!');
+        }else{
+            return back()->with('error', 'Item not found!');
+        }
     }
 }
