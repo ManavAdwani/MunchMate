@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{{asset('css/paymentIndex.css')}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
 </head>
 @include('navbar.navbar');
 
@@ -17,30 +19,62 @@
     <div class="container mt-5 px-5">
         <a href="{{route('backToCart',[$orderId])}}" class="btn btn-danger">↤ &nbsp; Back</a>
         <br><br>
-        <div class="mb-4">
+        <div class="addressSelection">
+            @php
+            $isAddressAvailable = App\Models\Address::where('user_id', session()->get('userId'))->select('id','address',
+            'city', 'state', 'pincode')->get()->toArray();
+            @endphp
+            <div id="selectAddress">
+                @if(!empty($isAddressAvailable))
+                @foreach ($isAddressAvailable as $add)
+                <div class="card mt-3">
+                    <span class="material-symbols-outlined" style="font-size: 40px">
+                        home_pin
+                    </span>
+                    <p class="cookieHeading">{{$add['state']}}</p>
+                    <p class="cookieDescription">{{ $add['address']
+                        }}&nbsp;{{$add['state']}}&nbsp;{{$add['city']}}&nbsp;{{$add['pincode']}}</p>
+
+                    <div class="buttonContainer">
+                        <a href="{{route('payment',[$orderId,$add['id']])}}" class="btn btn-warning">Use This address</a>
+                    </div>
+                </div>
+                @endforeach
+                @endif
+            </div>
+        </div>
+
+        <div class="mb-4 mt-5">
 
             <h2>Confirm order and pay</h2>
             <span>please make the payment, to enjoy tastiest food in your comfort zone !</span>
 
         </div>
+
         <form action="{{route('checkout')}}" method="post">
             <input type="hidden" name="_token" value="{{csrf_token()}}">
             <div class="row">
                 <form class="row g-3">
                     <div class="col-12">
+                        @php
+                        $userDetails = App\Models\User::where('id',session()->get('userId'))->select('email')->first();
+                        $userEmail = $userDetails->email;
+                        @endphp
                         <label for="inputEmail4" class="form-label">Email</label>
-                        <input type="email" value="{{session()->get('userId')}}" name="email" class="form-control" id="inputEmail4"  placeholder="Enter Email">
+                        <input type="email" value="{{$userEmail}}" name="email" class="form-control" id="inputEmail4"
+                            placeholder="Enter Email" readonly>
                     </div>
                     <div class="col-12 mt-3">
                         <label for="inputAddress" class="form-label">Address</label>
-                        <input type="text" name="address" class="form-control" id="inputAddress" placeholder="Enter address">
+                        <input type="text" name="address" class="form-control" id="inputAddress"
+                            placeholder="Enter address">
                     </div>
                     <div class="col-12 mt-3">
                         <label for="inputAddress2" class="form-label">Address 2</label>
                         <input type="text" name="address2" class="form-control" id="inputAddress2"
                             placeholder="Apartment, studio, or floor">
                     </div>
-                   
+
                     <div class="col-md-4 mt-3">
                         <label for="inputState" class="form-label">State</label>
                         <select id="inputState" name="state" class="form-select">
@@ -58,7 +92,8 @@
                         <input type="text" name="zip" class="form-control" id="inputZip" placeholder="Enter pincode">
                     </div>
                     <div class="col-12 mt-5">
-                        <button type="submit" class="btn btn-success">Pay ₹&nbsp;{{session()->get('grandTotal')}}</button>
+                        <button type="submit" class="btn btn-success">Pay
+                            ₹&nbsp;{{session()->get('grandTotal')}}</button>
                     </div>
                 </form>
             </div>

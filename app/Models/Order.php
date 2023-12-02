@@ -13,6 +13,8 @@ class Order extends Model
         'restaurant_id',
         'status',
         'payment',
-        'notes'
+        'notes',
+        'address_id',
+        'grandTotal'
     ];
 }
