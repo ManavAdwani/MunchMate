@@ -130,10 +130,6 @@ class CartController extends Controller
         }
     }
 
-    public function countItems(Request $request){
-        dd($request);
-    }
-
     public function deleteItem(Request $request, $cartId){
         $findProduct = Cart::find($cartId);
         if ($findProduct) {

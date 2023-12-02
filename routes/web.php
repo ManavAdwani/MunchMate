@@ -67,3 +67,4 @@ Route::get('orderCheckout/{userId}/{restaurantid}',[OrdersController::class,'ind
 Route::get('backToCart/{orderId}',[PaymentController::class,'backToCart'])->name('backToCart');
 Route::post('countItems',[CartController::class,'countItems'])->name('countItems');
 Route::get('deleteCartItem/{cartId}',[CartController::class,'deleteItem'])->name('deleteItem');
+Route::get('payment/{OrderId}/{addressIs}',[PaymentController::class,'payment'])->name('payment');
