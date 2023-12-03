@@ -63,8 +63,10 @@ Route::get('addAddress/{userId}/{restaurantId}', [
 ]);
 Route::post('/checkout',[PaymentController::class,'checkout'])->name('checkout');
 Route::get('success',[PaymentController::class,'success'])->name('success');
-Route::get('orderCheckout/{userId}/{restaurantid}',[OrdersController::class,'index'])->name('orderCheckout');
+Route::post('orderCheckout/{userId}/{restaurantid}',[OrdersController::class,'index'])->name('orderCheckout');
 Route::get('backToCart/{orderId}',[PaymentController::class,'backToCart'])->name('backToCart');
 Route::post('countItems',[CartController::class,'countItems'])->name('countItems');
 Route::get('deleteCartItem/{cartId}',[CartController::class,'deleteItem'])->name('deleteItem');
 Route::get('payment/{OrderId}/{addressIs}',[PaymentController::class,'payment'])->name('payment');
+
+Route::get('orderDetails',[OrdersController::class,'yourOrders'])->name('yourOrders');

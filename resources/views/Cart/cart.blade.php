@@ -35,16 +35,23 @@
     <div class="mt-5"></div>
     <div class="container">
         @if (session()->get('success'))
-            <div class="alert alert-success" role="alert">
-                {{ session()->get('success') }}
-            </div>
+        <div class="alert alert-success" role="alert">
+            {{ session()->get('success') }}
+        </div>
         @elseif(session()->get('error'))
-            <div class="alert alert-danger" role="alert">
-                {{ session()->get('error') }}
-            </div>
+        <div class="alert alert-danger" role="alert">
+            {{ session()->get('error') }}
+        </div>
         @endif
+        @php
+
+        $cartIds = [];
+
+        @endphp
         <div class="cart">
-            @foreach ($products as $index => $product)
+            <form action="{{route('orderCheckout',['userId','restaurantid'])}}" method="POST">
+                @csrf
+                @foreach ($products as $index => $product)
                 <div class="items">
                     <input type="hidden" value="{{ $product->cartId }}" id="cartId_{{ $index }}">
                     <div class="left">
@@ -58,11 +65,9 @@
                     </div>
                     <div class="quantity buttons_added">
                         <input type="button" value="-" class="minus">
-                        <input type="number" step="1" min="1" max="" name="quantity"
-                            value="{{ $product->qty }}"
+                        <input type="number" step="1" min="1" max="" name="quantity" value="{{ $product->qty }}"
                             onchange="updating(this.value, document.getElementById('cartId_{{ $index }}').value)"
-                            title="Qty" class="input-text qty text" size="4" pattern="" inputmode=""
-                            id="qtyInput">
+                            title="Qty" class="input-text qty text" size="4" pattern="" inputmode="" id="qtyInput">
                         <input type="button" value="+" class="plus">
                     </div>
                     <div class="right">
@@ -77,7 +82,11 @@
                     </div>
                 </div>
                 <br>
-            @endforeach
+                @php
+                    $cartIds[] = $product->cartId;
+                @endphp
+                @endforeach
+                <input type="hidden" value="{{ json_encode($cartIds) }}" name="cartIds[]">
 
         </div>
     </div>
@@ -87,10 +96,10 @@
             <div class="subtotal">Items Total: <b>₹{{ $totalPrice }}</b></div>
             <div class="tax">Delivery charges: <b>₹45</b></div>
             <div class="grand-total" id="grand-total">Grand total: &nbsp;₹{{ $grandTotal }}</div>
-            <a href="{{ route('orderCheckout', [$userId, $restaurant_id]) }}" class="btn btn-warning"
-                style="width: 100%">Order Now</a>
+            <button class="btn btn-warning" style="width: 100%">Order Now</button>
         </div>
     </div>
+    </form>
 </body>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script>
@@ -172,6 +181,5 @@
         }
     }
 </script>
-
 
 </html>

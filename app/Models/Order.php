@@ -15,6 +15,7 @@ class Order extends Model
         'payment',
         'notes',
         'address_id',
-        'grandTotal'
+        'grandTotal',
+        'cart_id'
     ];
 }
