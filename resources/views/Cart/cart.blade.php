@@ -49,7 +49,7 @@
 
         @endphp
         <div class="cart">
-            <form action="{{route('orderCheckout',['userId','restaurantid'])}}" method="POST">
+            <form action="{{route('orderCheckout',[session()->get('userId'),$restaurant_id])}}" method="POST">
                 @csrf
                 @foreach ($products as $index => $product)
                 <div class="items">

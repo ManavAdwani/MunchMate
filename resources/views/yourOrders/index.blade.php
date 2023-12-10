@@ -6,6 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
 
     <link rel="stylesheet" href="fonts/icomoon/style.css">
 
@@ -51,11 +53,20 @@
                     <tbody>
                         @foreach ($getAllOrders as $orders)
                         @php
-                        $getDishName = App\Models\Cart::whereIn('carts.id', explode(',', $orders->cart_id))
+                        $orderIds = json_decode($orders->cart_id);
+                        $dishNames = [];
+
+                        foreach ($orderIds as $orderId) {
+                        $getDishNames = App\Models\Cart::where('carts.id', '=', $orderId)
                         ->where('carts.restaurant_id', '=', $orders->restaurant_id)
                         ->join('restaurant_menus', 'restaurant_menus.id', '=', 'carts.product_id')
-                        ->select('dish_name')
-                        ->get();
+                        ->pluck('dish_name')
+                        ->toArray();
+
+                        $dishNames = array_merge($dishNames, $getDishNames);
+                        }
+
+                        $dishNamesString = implode(', ', $dishNames);
                         @endphp
 
                         <tr>
@@ -65,28 +76,26 @@
                                     <div class="control__indicator"></div>
                                 </label>
                             </th>
-                            <td>
-                                {{$orders->id}}
-                            </td>
-                            <td>
-                                {{$orders->name}}
-                            </td>
-                            @foreach ($getDishName as $dish)
-                            <td>
-                                {{ $dish->dish_name }}
-                            </td>
-                            @endforeach
-                            <td>
-                                {{$orders->status}}
-                            </td>
-                            <td>
-                                {{$orders->grandTotal}}
-                            </td>
+                            <td>{{ $orders->id }}</td>
+                            <td>{{ $orders->name }}</td>
+                            <td>{{ $dishNamesString }}</td>
+                            @if($orders->status == "Order Recieved")
+                            <td><span class="badge text-bg-success">Order Recieved</span></td>
+                            @elseif ($orders->status == "Order Accepted")
+                            <td><span class="badge text-bg-warning">Order Accepted</span></td>
+                            @elseif ($orders->status == "Order Ready for pickup")
+                            <td><span class="badge text-bg-primary">Order Ready for pickup</span></td>
+                            @elseif ($orders->status == "Order Picked")
+                            <td><span class="badge text-bg-primary">Order picked up</span></td>
+                            {{-- Order Picked --}}
+                            @endif
+                            <td>₹ {{ $orders->grandTotal }}</td>
                             <td>
                                 <button class="btn btn-warning">View Details</button>
                             </td>
                         </tr>
                         @endforeach
+
                     </tbody>
                 </table>
             </div>
@@ -101,6 +110,8 @@
     <script src="{{asset('js/jquery-3.3.1.min.js')}}"></script>
     <script src="{{asset('js/popper.min.js')}}"></script>
     <script src="{{asset('js/bootstrap.min.js')}}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
     <script src="js/main.js"></script>
     <script>
         $(function() {

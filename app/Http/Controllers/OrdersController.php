@@ -37,10 +37,12 @@ class OrdersController extends Controller
     $userId = session()->get('userId');
     // dd($getdetails);
     $getAllOrders = DB::table('orders')
-      ->select('orders.restaurant_id','restaurants.name', 'orders.id', 'orders.status', 'orders.grandTotal','orders.cart_id')
+      ->select('orders.restaurant_id', 'restaurants.name', 'orders.id', 'orders.status', 'orders.grandTotal', 'orders.cart_id')
       ->join('restaurants', 'restaurants.id', '=', 'orders.restaurant_id')
       ->where('orders.user_id', $userId)
+      ->orderByDesc('orders.created_at') // Assuming there's a created_at field
       ->get();
+
 
     return view('yourOrders.index', compact('getAllOrders'));
   }
