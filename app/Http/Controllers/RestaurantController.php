@@ -93,7 +93,6 @@ class RestaurantController extends Controller
             $orderTotalPrice = 0;
             $quantities = [];
 
-
             // Calculate total price for each ordered product
             foreach ($orderedProducts as $product) {
                 $quantity = Cart::where('user_id', $order->user_id)
@@ -120,6 +119,7 @@ class RestaurantController extends Controller
                 'quantities' => $quantities
             ];
         }
+        // dd($allOrderedProducts);
 
         return view('Restaurant.index', compact('name', 'allOrderedProducts', 'resId'))->with('userId', $userId);
     }

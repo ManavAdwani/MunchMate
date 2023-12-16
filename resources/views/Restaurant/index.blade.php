@@ -143,10 +143,10 @@
                         <tr class="order-row">
                             <td>{{ $orderDetails['order']->id }}</td>
                             <td>{{ $orderDetails['userName'] }}</td>
-                            <td>{{ $orderDetails['orderedProducts'][0]->description }}</td>
-                            <td>{{ $orderDetails['orderedProducts'][0]->price }}</td>
+                            <td>{{ $orderDetails['orderedProducts'][0]->description ?? 'NULL' }}</td>
+                            <td>{{ $orderDetails['orderedProducts'][0]->price ?? 0 }}</td>
                             {{-- <td>{{ $orderDetails['orderedProducts'][0]->quantity }}</td> --}}
-                            <td>{{ $orderDetails['orderedProducts'][0]->totalPrice }}</td>
+                            <td>{{ $orderDetails['orderedProducts'][0]->totalPrice ?? 0 }}</td>
                             
                             <td>
                                 <button class="btn btn-info view-details"
