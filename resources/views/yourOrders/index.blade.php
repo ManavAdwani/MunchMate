@@ -57,7 +57,7 @@
                         $dishNames = [];
 
                         foreach ($orderIds as $orderId) {
-                        $getDishNames = App\Models\Cart::where('carts.id', '=', $orderId)
+                        $getDishNames = App\Models\Cart::where('carts.orderId', '=', $orders->id)
                         ->where('carts.restaurant_id', '=', $orders->restaurant_id)
                         ->join('restaurant_menus', 'restaurant_menus.id', '=', 'carts.product_id')
                         ->pluck('dish_name')
