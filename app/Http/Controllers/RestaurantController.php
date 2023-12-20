@@ -121,7 +121,20 @@ class RestaurantController extends Controller
         }
         // dd($allOrderedProducts);
 
-        return view('Restaurant.index', compact('name', 'allOrderedProducts', 'resId'))->with('userId', $userId);
+        $totalEarnings = Order::where('restaurant_id', $resId)
+            ->where('status', 'Delivered')
+            ->select(
+                DB::raw('YEAR(created_at) as year'),
+                DB::raw('MONTH(created_at) as month'),
+                DB::raw('SUM(grandTotal) as total_earning')
+            )
+            ->groupBy('year', 'month')
+            ->get();
+        $totalEarnings = $totalEarnings->map(function ($earning) {
+            $earning->month = Carbon::createFromDate(null, $earning->month, null)->monthName;
+            return $earning;
+        });
+        return view('Restaurant.index', compact('name', 'allOrderedProducts', 'resId', 'totalEarnings'))->with('userId', $userId);
     }
 
 
@@ -280,6 +293,6 @@ class RestaurantController extends Controller
             $changeStatus->status = "Order delivered";
         }
         $changeStatus->update();
-        return back()->with('status','Order Status Changed Successfully');
+        return back()->with('status', 'Order Status Changed Successfully');
     }
 }
