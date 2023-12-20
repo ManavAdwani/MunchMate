@@ -17,6 +17,10 @@
     <div class="container" style="margin-top: 100px">
         <h1 style="font-size: 32px;margin-bottom:2rem;">Welcome, {{$name}}</h1>
     </div>
+    <div class="container mt-5">
+
+    </div>
+    <br><br><br><br><br>
     <div class="container">
         @if(session()->get('status'))
         <div class="alert alert-success" role="alert">
@@ -25,7 +29,7 @@
         @endif
     </div>
     <div class="container mt-5"
-    style="box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;border-radius:20px">
+        style="box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;border-radius:20px">
         <div class="box">
             <div class="header" style="padding-top: 20px">
                 <h5>Recent Order Received</h5>
@@ -147,34 +151,38 @@
                             <td>{{ $orderDetails['orderedProducts'][0]->price ?? 0 }}</td>
                             {{-- <td>{{ $orderDetails['orderedProducts'][0]->quantity }}</td> --}}
                             <td>{{ $orderDetails['orderedProducts'][0]->totalPrice ?? 0 }}</td>
-                            
+
                             <td>
                                 <button class="btn btn-info view-details"
                                     data-order-id="{{ $orderDetails['order']->id }}">
                                     View Details
                                 </button>
                                 {{-- 1 - Order Received
-                                    2 - Order Accepted
-                                    3 - Order Ready for deliver
-                                    4 - Order picked up
-                                    5 - Order delivered
-                                    0 - Order Rejected--}}
-                                    @php
-                                        $getStatus = App\Models\Order::where('id',$orderDetails['order']->id)->select('status')->first();
-                                        $status = $getStatus->status ?? 0;
-                                    @endphp
-                                    @if($status == "Order Recieved")
-                                <a class="btn btn-danger view-details" href="{{route('changeOrderStatus',[$orderDetails['order']->id,2])}}">
-                                Accept Order
+                                2 - Order Accepted
+                                3 - Order Ready for deliver
+                                4 - Order picked up
+                                5 - Order delivered
+                                0 - Order Rejected--}}
+                                @php
+                                $getStatus =
+                                App\Models\Order::where('id',$orderDetails['order']->id)->select('status')->first();
+                                $status = $getStatus->status ?? 0;
+                                @endphp
+                                @if($status == "Order Recieved")
+                                <a class="btn btn-danger view-details"
+                                    href="{{route('changeOrderStatus',[$orderDetails['order']->id,2])}}">
+                                    Accept Order
                                 </a>
                                 @elseif($status == "Order Accepted")
-                                <a class="btn btn-danger view-details" href="{{route('changeOrderStatus',[$orderDetails['order']->id,3])}}">
+                                <a class="btn btn-danger view-details"
+                                    href="{{route('changeOrderStatus',[$orderDetails['order']->id,3])}}">
                                     Order Ready for Pickup
-                                    </a>
+                                </a>
                                 @elseif($status == "Order Ready for pickup")
-                                <a class="btn btn-danger view-details" href="{{route('changeOrderStatus',[$orderDetails['order']->id,4])}}">
+                                <a class="btn btn-danger view-details"
+                                    href="{{route('changeOrderStatus',[$orderDetails['order']->id,4])}}">
                                     Order picked up
-                                    </a>
+                                </a>
                                 @endif
                             </td>
                         </tr>
@@ -184,7 +192,7 @@
                                 <!-- You can customize this part based on your needs -->
                                 <div class="alert alert-primary" role="alert">
                                     Order Details for Order ID {{ $orderDetails['order']->id }}
-                                  </div>
+                                </div>
                                 <table class="table  table-bordered">
                                     <tr>
                                         <th>Dish Name</th>
@@ -208,10 +216,34 @@
             </div>
         </div>
     </div>
+    <br><br>
+    <h2 style="text-align:center">Financial Overview</h2>
+    <br><br>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Chart Container -->
+            <div class="col-lg-4 col-md-12">
+                <div class="chart-container">
+                    <div class="card card-chart">
+                        <div class="card-header card-header-warning">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">Earning per month</h4>
+                            <p class="card-category">Line chart that shows earning per month</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{-- <div class="container mt-5">dfdfdf</div> --}}
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <script>
         $(document).ready(function() {
             $('.view-details').on('click', function() {
@@ -221,5 +253,33 @@
         });
     </script>
 </body>
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var totalEarningsData = {!! json_encode($totalEarnings) !!};
+    var labels = totalEarningsData.map(entry => entry.month + '/' + entry.year);
+    var data = totalEarningsData.map(entry => entry.total_earning);
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: '# of Earning per month',
+          backgroundColor: "rgba(255,99,132,0.2)",
+    borderColor: "rgba(255,99,132,1)",
+    borderWidth: 2,
+    hoverBackgroundColor: "rgba(255,99,132,0.4)",
+          data: data,
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+</script>
 
 </html>
