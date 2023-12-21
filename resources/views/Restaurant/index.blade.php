@@ -8,7 +8,8 @@
     <title>MunchMate - Restaurant Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
     <link rel="stylesheet" href="{{asset('css/restaurantDasboard.css')}}">
 </head>
 
@@ -17,10 +18,42 @@
     <div class="container" style="margin-top: 100px">
         <h1 style="font-size: 32px;margin-bottom:2rem;">Welcome, {{$name}}</h1>
     </div>
-    <div class="container mt-5">
-
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4 mt-3">
+                <div class="text-white card bg-gradient-info" id="cards">
+                    <div class="card-body earned">
+                        <div style="float: left; height:50;">
+                            <span class="material-symbols-outlined" style="font-size: 50px; margin-top:2px;">
+                                paid
+                            </span>
+                            <!-- <i class="fa fa-user fa-5x" aria-hidden="true"></i> -->
+                        </div>
+                        <div class="text-value-lg" style="font-size: 20px;">
+                            ₹ {{$earningThisMonth ?? 0}}
+                        </div>
+                        <h5>Earned this month</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-4 mt-3">
+                <div class="text-white card bg-gradient-info" id="cards">
+                    <div class="card-body totalOrders">
+                        <div style="float: left; height:50;">
+                            <span class="material-symbols-outlined" style="font-size: 50px; margin-top:2px;">
+                                list_alt
+                            </span>
+                            <!-- <i class="fa fa-user fa-5x" aria-hidden="true"></i> -->
+                        </div>
+                        <div class="text-value-lg" style="font-size: 20px;">
+                            {{$totalOrders ?? 0}}
+                        </div>
+                        <h5>Total Orders</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <br><br><br><br><br>
     <div class="container">
         @if(session()->get('status'))
         <div class="alert alert-success" role="alert">
@@ -39,97 +72,6 @@
                 <hr>
             </div>
             <div class="body">
-                {{-- <table class="table align-middle mb-0 bg-white">
-                    <thead class="bg-light">
-                        <tr>
-                            <th>Name</th>
-                            <th>Title</th>
-                            <th>Status</th>
-                            <th>Position</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://mdbootstrap.com/img/new/avatars/8.jpg" alt=""
-                                        style="width: 45px; height: 45px" class="rounded-circle" />
-                                    <div class="ms-3">
-                                        <p class="fw-bold mb-1">John Doe</p>
-                                        <p class="text-muted mb-0">john.doe@gmail.com</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <p class="fw-normal mb-1">Software engineer</p>
-                                <p class="text-muted mb-0">IT department</p>
-                            </td>
-                            <td>
-                                <span class="badge badge-success rounded-pill d-inline">Active</span>
-                            </td>
-                            <td>Senior</td>
-                            <td>
-                                <button type="button" class="btn btn-warning btn-rounded btn-sm fw-bold"
-                                    data-mdb-ripple-color="dark">
-                                    Edit
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://mdbootstrap.com/img/new/avatars/6.jpg" class="rounded-circle"
-                                        alt="" style="width: 45px; height: 45px" />
-                                    <div class="ms-3">
-                                        <p class="fw-bold mb-1">Alex Ray</p>
-                                        <p class="text-muted mb-0">alex.ray@gmail.com</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <p class="fw-normal mb-1">Consultant</p>
-                                <p class="text-muted mb-0">Finance</p>
-                            </td>
-                            <td>
-                                <span class="badge badge-primary rounded-pill d-inline">Onboarding</span>
-                            </td>
-                            <td>Junior</td>
-                            <td>
-                                <button type="button" class="btn btn-warning btn-rounded btn-sm fw-bold"
-                                    data-mdb-ripple-color="dark">
-                                    Edit
-                                </button>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <img src="https://mdbootstrap.com/img/new/avatars/7.jpg" class="rounded-circle"
-                                        alt="" style="width: 45px; height: 45px" />
-                                    <div class="ms-3">
-                                        <p class="fw-bold mb-1">Kate Hunington</p>
-                                        <p class="text-muted mb-0">kate.hunington@gmail.com</p>
-                                    </div>
-                                </div>
-                            </td>
-                            <td>
-                                <p class="fw-normal mb-1">Designer</p>
-                                <p class="text-muted mb-0">UI/UX</p>
-                            </td>
-                            <td>
-                                <span class="badge badge-warning rounded-pill d-inline">Awaiting</span>
-                            </td>
-                            <td>Senior</td>
-                            <td>
-                                <button type="button" class="btn btn-warning btn-rounded btn-sm fw-bold"
-                                    data-mdb-ripple-color="dark">
-                                    Edit
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table> --}}
                 <table class="table" id="ordersTable">
                     <thead class="thead-dark">
                         <tr>
@@ -137,8 +79,8 @@
                             <th>User Name</th>
                             <th>Description</th>
                             <th>Price</th>
-                            {{-- <th>Quantity</th> --}}
                             <th>Total Price</th>
+                            <th>Status</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -148,11 +90,11 @@
                             <td>{{ $orderDetails['order']->id }}</td>
                             <td>{{ $orderDetails['userName'] }}</td>
                             <td>{{ $orderDetails['orderedProducts'][0]->description ?? 'NULL' }}</td>
-                            <td>{{ $orderDetails['orderedProducts'][0]->price ?? 0 }}</td>
+                            <td>&nbsp;&nbsp;₹ {{ $orderDetails['orderedProducts'][0]->price ?? 0 }}</td>
                             {{-- <td>{{ $orderDetails['orderedProducts'][0]->quantity }}</td> --}}
-                            <td>{{ $orderDetails['orderedProducts'][0]->totalPrice ?? 0 }}</td>
-
-                            <td>
+                            <td>&nbsp;&nbsp;&nbsp;₹ {{ $orderDetails['orderedProducts'][0]->totalPrice ?? 0 }}</td>
+                            <td><span class="badge text-bg-success">{{ $orderDetails['order']->status }}</span></td>
+                            <td >
                                 <button class="btn btn-info view-details"
                                     data-order-id="{{ $orderDetails['order']->id }}">
                                     View Details

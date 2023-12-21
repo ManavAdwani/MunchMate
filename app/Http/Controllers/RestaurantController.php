@@ -134,7 +134,13 @@ class RestaurantController extends Controller
             $earning->month = Carbon::createFromDate(null, $earning->month, null)->monthName;
             return $earning;
         });
-        return view('Restaurant.index', compact('name', 'allOrderedProducts', 'resId', 'totalEarnings'))->with('userId', $userId);
+
+        $earningThisMonth = Order::where('restaurant_id', $resId)
+            ->where('status', 'Delivered')
+            ->sum('grandTotal');
+
+        $totalOrders =  Order::where('restaurant_id', $resId)->count();
+        return view('Restaurant.index', compact('name', 'allOrderedProducts', 'resId', 'totalEarnings','earningThisMonth','totalOrders'))->with('userId', $userId);
     }
 
 
