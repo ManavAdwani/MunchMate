@@ -30,7 +30,7 @@ class UserController extends Controller
     }
     $user->save();
     session()->put('username', $user->username);
-    session()->put('userId',$user->id);
+    session()->put('userId', $user->id);
     return redirect('/');
   }
 
@@ -41,7 +41,7 @@ class UserController extends Controller
       'pass' => 'required'
     ]);
     $phone = $request->input('phone');
-    $user = User::where('phone_number', $phone)->select('username','id')->first();
+    $user = User::where('phone_number', $phone)->select('username', 'id')->first();
     // dd($user);
     if ($user != null) {
       $checkPass = User::where('phone_number', $phone)->select('password', 'username', 'role')->first();
@@ -50,13 +50,17 @@ class UserController extends Controller
         if ($password == $request->input('pass')) {
           if ($checkPass->role == 1) {
             session()->put('username', $user->username);
-            session()->put('userId',$user->id);
+            session()->put('userId', $user->id);
             // dd($user->id);
             return redirect('/');
           } elseif ($checkPass->role == 2) {
             session()->put('username', $user->username);
-            session()->put('userId',$user->id);
+            session()->put('userId', $user->id);
             return redirect('Restaurant');
+          } elseif ($checkPass->role == 0) {
+            session()->put('username', $user->username);
+            session()->put('userId', $user->id);
+            return redirect()->route('admin-panel'); 
           }
         } else {
           return back()->with('error', 'Wrong Password');
