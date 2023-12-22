@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -70,3 +71,6 @@ Route::get('deleteCartItem/{cartId}',[CartController::class,'deleteItem'])->name
 Route::get('payment/{OrderId}/{addressIs}',[PaymentController::class,'payment'])->name('payment');
 
 Route::get('orderDetails',[OrdersController::class,'yourOrders'])->name('yourOrders');
+
+// Admin panel
+Route::get('admin-side',[AdminController::class,'index'])->name('admin-panel');

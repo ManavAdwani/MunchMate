@@ -1,0 +1,46 @@
+.welcome-text {
+    font-family: "Manrope", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 38px;
+    color: #8d8d8d;
+    margin-bottom: 10px;
+}
+
+body {
+    background: #f4f5f7;
+}
+
+.totalOrders {
+    text-align: right;
+    border-radius: 15px;
+    background-color: #fbab7e;
+    background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
+}
+
+#cards {
+    border-style: hidden;
+}
+
+.totalUsers {
+    text-align: right;
+    border-radius: 15px;
+    background-color: #0093e9;
+    background-image: linear-gradient(160deg, #0093e9 0%, #80d0c7 100%);
+}
+
+.totalRestaurants {
+    text-align: right;
+    border-radius: 15px;
+    background-color: #fbab7e;
+    background-image: linear-gradient(62deg, #fbab7e 0%, #f7ce68 100%);
+}
+
+.totalEarnings{
+    text-align: right;
+    border-radius: 15px;
+    background-color: #8BC6EC;
+background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
+
+}
