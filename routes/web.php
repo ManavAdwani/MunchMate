@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrdersController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\AdminController;
+use App\Models\Restaurant;
 
 /*
 |--------------------------------------------------------------------------
@@ -74,3 +75,8 @@ Route::get('orderDetails',[OrdersController::class,'yourOrders'])->name('yourOrd
 
 // Admin panel
 Route::get('admin-side',[AdminController::class,'index'])->name('admin-panel');
+
+Route::get('add-menu',[RestaurantController::class,'add_menu'])->name('menu-add');
+
+Route::get('restaurantMenu',[RestaurantController::class,'restaurantMenu'])->name('restaurantMenu');
+Route::get('deleteMenu/{menuId}',[RestaurantController::class,'deleteMenu'])->name('deleteMenu');

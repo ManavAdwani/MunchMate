@@ -140,7 +140,7 @@ class RestaurantController extends Controller
             ->sum('grandTotal');
 
         $totalOrders =  Order::where('restaurant_id', $resId)->count();
-        return view('Restaurant.index', compact('name', 'allOrderedProducts', 'resId', 'totalEarnings','earningThisMonth','totalOrders'))->with('userId', $userId);
+        return view('Restaurant.index', compact('name', 'allOrderedProducts', 'resId', 'totalEarnings', 'earningThisMonth', 'totalOrders'))->with('userId', $userId);
     }
 
 
@@ -265,9 +265,9 @@ class RestaurantController extends Controller
             }
         }
 
-        dd("Menu Added Successfully");
+        
 
-        // return redirect()
+        return back()->with('success','Item added successfully !');
         //     ->with('success', 'Menu uploaded!');
         // return back();
         // return back();
@@ -300,5 +300,40 @@ class RestaurantController extends Controller
         }
         $changeStatus->update();
         return back()->with('status', 'Order Status Changed Successfully');
+    }
+
+    public function add_menu()
+    {
+        $userId = session()->get('userId');
+        $getResId = Restaurant::where('owner', $userId)->select('id')->first();
+        if ($getResId) {
+            $resId = $getResId->id ?? 0;
+            session()->put('resId', $resId);
+            // session()->put('userId', $res->owner);
+            return view('Restaurant.addMenu');
+        } else {
+            return back();
+        }
+    }
+
+    public function restaurantMenu()
+    {
+        $resId = session()->get('resId');
+
+        $getDetails = RestaurantMenu::where('restaurant_id', $resId)->get()->toArray();
+        return view('Restaurant.allProducts', compact('getDetails'));
+    }
+
+    public function deleteMenu(Request $request, $menuId)
+    {
+        $menuId = $menuId;
+        $item = RestaurantMenu::find($menuId);
+        if ($item) {
+            $item->delete();
+            return back()->with('success', 'Item deleted Successfully !');
+        }
+        else{
+            return back()->with('error','Some Error occured please try again letter');
+        }
     }
 }
