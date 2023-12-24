@@ -33,6 +33,15 @@
 
     </div>
     <div class="container">
+      @if(session()->get('success'))
+      <div class="alert alert-success" role="alert">
+          {{session()->get('success')}}
+        </div>
+      @elseif(session()->get('error'))
+      <div class="alert alert-danger" role="alert">
+          {{session()->get('error')}}
+        </div>
+      @endif
         <form action="{{route('saveMenu')}}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="drop-zone" style="margin-left: 80px">

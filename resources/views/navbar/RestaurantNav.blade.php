@@ -30,14 +30,17 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ml-auto py-4 py-md-0">
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                    <a class="nav-link" href="#" role="button" aria-haspopup="true"
+                                    <a class="nav-link" href="{{route('indexpage')}}" role="button" aria-haspopup="true"
                                         aria-expanded="false">Dashboard</a>
                                 </li>
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                                     <a class="nav-link" href="{{route('restaurant')}}">Restaurant</a>
                                 </li>
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                    <a class="nav-link" href="#">Menu</a>
+                                    <a class="nav-link" href="{{route('menu-add')}}">Menu</a>
+                                </li>
+                                <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                                    <a class="nav-link" href="{{route('restaurantMenu')}}">Products</a>
                                 </li>
                                 @if(!session()->get('username'))
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
