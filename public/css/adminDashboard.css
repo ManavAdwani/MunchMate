@@ -44,3 +44,36 @@ body {
 background-image: linear-gradient(135deg, #8BC6EC 0%, #9599E2 100%);
 
 }
+
+canvas {
+    border: 1px dotted red;
+}
+
+.chart-container {
+    position: relative;
+    margin: auto;
+    height: 80vh;
+    width: 80vw;
+}
+
+/* Add your custom styles here */
+@media (min-width: 768px) {
+    /* Larger screens */
+    #myChart {
+        max-width: 100%;
+        height: auto;
+    }
+
+    .chart-container {
+        max-width: 500px; /* Set your desired maximum width */
+        margin-left: 100px;
+    }
+}
+
+@media (max-width: 767.98px) {
+    /* Smaller screens (tablets and below) */
+    #myChart {
+        width: 100%;
+        height: 300px; /* Set your desired height */
+    }
+}

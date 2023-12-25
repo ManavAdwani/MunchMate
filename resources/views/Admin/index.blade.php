@@ -70,13 +70,108 @@
                 </div>
             </div>
         </div>
+    </div>
+    <br><br>
+    <h2 style="text-align:center">Financial Overview</h2>
+    <br><br>
+    <div class="container-fluid">
+        <div class="row" style="justify-content: space-between">
+            <!-- Chart Container -->
+            <div class="col-lg-6 col-md-6">
+                <div class="chart-container">
+                    <div class="card card-chart">
+                        <div class="card-header card-header-warning">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">Earning per month</h4>
+                            <p class="card-category">Line chart that shows earning per month</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="chart-container">
+                    <div class="card card-chart">
+                        <div class="card-header card-header-warning">
+                            <canvas id="yourChart"></canvas>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">Earning per month</h4>
+                            <p class="card-category">Line chart that shows earning per month</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+   
 
-
-
-        {{-- Bootstrap --}}
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
-        </script>
+    {{-- Bootstrap --}}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctxLineChart = document.getElementById('myChart');
+        var totalEarningsData = {!! json_encode($totalEarningsPerMonth) !!};
+        var labels = totalEarningsData.map(entry => entry.month + '/' + entry.year);
+        var data = totalEarningsData.map(entry => entry.total_earning_percentage);
+        
+        new Chart(ctxLineChart, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '# of Earning per month',
+                    backgroundColor: "rgba(255,99,132,0.2)",
+                    borderColor: "rgba(255,99,132,1)",
+                    borderWidth: 2,
+                    hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                    data: data,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    
+    <script>
+        const ctxBarChart = document.getElementById('yourChart');
+        var topFiveUsers = @json($topFiveUsers);
+        var labelsBar = topFiveUsers.map(user => user.user_name);
+        var dataBar = topFiveUsers.map(user => user.total_ordered);
+    
+        new Chart(ctxBarChart, {
+            type: 'bar',
+            data: {
+                labels: labelsBar,
+                datasets: [{
+                    label: 'Total Ordered Amount',
+                    backgroundColor: "rgba(255,99,132,0.2)",
+                    borderColor: "rgba(255,99,132,1)",
+                    borderWidth: 2,
+                    hoverBackgroundColor: "rgba(255,99,132,0.4)",
+                    data: dataBar,
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+    
 
 </body>
 

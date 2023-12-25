@@ -54,8 +54,7 @@
             @foreach($restaurants as $restaurant)
             <div class="first">
                 <div class="image">
-                    <img src="{{asset('storage/pfp/'.$restaurant->restaurant_pfp)}}"
-                        alt="{{$restaurant->restaurant_pfp}}">
+                    <img src="{{asset('storage/pfp/1700034758_Subway.png')}}" alt="">
                 </div>
                 <div class="title mt-2">
                     <h5 class="title">{{$restaurant->name}}</h5>
@@ -89,7 +88,7 @@
                 @foreach ($allRes as $res)
                 <div class="first">
                     <div class="image">
-                        <img src="{{asset('storage/pfp/'.$res->restaurant_pfp)}}" alt="">
+                        <img src="{{asset('storage/pfp/1700034758_Subway.png')}}" alt="">
                     </div>
                     <div class="title mt-2">
                         <h5 class="title">{{$res->name}}</h5>
