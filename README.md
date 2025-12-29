@@ -2,7 +2,7 @@
 
 > A delightful, full-stack food delivery platform tailored for seamless interactions between Customers, Restaurants, and Delivery Partners.
 
-![Banner](https://i.ibb.co/1h9HcQD/screencapture-localhost-8000-2025-12-29-15-15-34.png)
+![Banner](https://i.ibb.co/mFM7S91k/screencapture-localhost-8000-2025-12-29-15-25-54.png)
 
 ## 📖 About
 
