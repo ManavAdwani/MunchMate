@@ -55,11 +55,6 @@
                         <span class="text">₹ {{$details['price']}}</span>
                     </td>
                     <td>
-                        <button type="button" class="btn btn-warning btn-sm" >
-                            <span class="material-symbols-outlined mt-1" style="font-size: 17px;">
-                                edit
-                                </span>
-                        </button>
                         <a href="{{route('deleteMenu',$details['id'])}}" class="btn btn-danger btn-sm"><span class="material-symbols-outlined mt-1" style="font-size: 17px;">
                             delete
                             </span></a>

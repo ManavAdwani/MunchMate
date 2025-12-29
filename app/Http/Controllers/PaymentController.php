@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Cart;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 class PaymentController extends Controller
 {
@@ -41,6 +42,9 @@ class PaymentController extends Controller
         }
         \Stripe\Stripe::setApiKey(config(key: 'stripe.sk'));
         $session = \Stripe\Checkout\Session::create([
+            'customer_email' => $email, // Required for compliance
+            'billing_address_collection' => 'required', // Ensures address is collected
+            'payment_method_types' => ['card'],
             'line_items' => [
                 [
                     'price_data' => [
@@ -71,65 +75,103 @@ class PaymentController extends Controller
 
     public function backToCart(Request $request, $orderId)
     {
-        $getOrder = Order::where('id', $orderId)->first();
-        if ($getOrder) {
-            $getOrder->delete();
-            $userId = session()->get('userId');
-            if ($userId) {
-                $products = Cart::where('user_id', $userId)->join('users', 'users.id', '=', 'carts.user_id')->join('restaurant_menus', 'restaurant_menus.id', '=', 'carts.product_id')->select('carts.id as cartId', 'restaurant_menus.dish_name as dish_name', 'restaurant_menus.description as dish_desc', 'restaurant_menus.price as price', 'restaurant_menus.dish_pic as dish_pic', 'carts.quantity as qty')->get();
-                if (!empty($products)) {
-                    $resId = Cart::where('user_id', $userId)->join('users', 'users.id', '=', 'carts.user_id')->join('restaurant_menus', 'restaurant_menus.id', '=', 'carts.product_id')->select('carts.restaurant_id as ResId')->first();
-                    if (!empty($resId)) {
-                        $restaurant_id = $resId->ResId;
-                        $totalPrice = 0;
-                        foreach ($products as $product) {
-                            $totalPrice += $product->qty * $product->price;
-                        }
-                        $grandTotal = $totalPrice + 45;
-                        $totalCount = Cart::where('user_id', $userId)->join('users', 'users.id', '=', 'carts.user_id')->join('restaurant_menus', 'restaurant_menus.id', '=', 'carts.product_id')->select('restaurant_menus.dish_name as dish_name', 'restaurant_menus.description as dish_desc', 'restaurant_menus.price as price', 'restaurant_menus.dish_pic as dish_pic')->count();
-                        session()->put('grandTotal', $grandTotal);
-                        return redirect()->route('cartPage', ['userId' => $userId, 'restaurantid' => $restaurant_id])->with(compact('products', 'totalCount', 'totalPrice', 'grandTotal'));
-                    } else {
-                        return view('Cart.emptyCart');
-                    }
-                } else {
-                    return view('Cart.emptyCart');
-                }
-            } else {
-                return view('Sign in.sign_in');
+        // 1. Find the order with its items
+        $order = Order::find($orderId);
+
+        if (!$order) {
+            return view('Cart.emptyCart');
+        }
+
+        // 2. Retrieve order items
+        $orderItems = DB::table('order_items')->where('order_id', $orderId)->get();
+
+        // 3. Restore items to Cart
+        if ($orderItems->isNotEmpty()) {
+            foreach ($orderItems as $item) {
+                // Check if this specific item combination already exists to avoid duplicates 
+                // (though technically we are restoring a previous state, checking is safer)
+                // However, since we cleared the cart, we can just insert.
+                
+                $cart = new Cart();
+                $cart->user_id = $order->user_id;
+                $cart->product_id = $item->product_id;
+                $cart->restaurant_id = $order->restaurant_id;
+                $cart->quantity = $item->quantity;
+                $cart->price = $item->price;
+                $cart->created_at = now();
+                $cart->updated_at = now();
+                $cart->save();
             }
         }
+
+        // 4. Delete the Order and Order Items
+        // Note: order_items should cascade delete if set up in DB, but explicit delete is safer if not.
+        DB::table('order_items')->where('order_id', $orderId)->delete();
+        $order->delete();
+
+        // 5. Redirect to Cart Page
+        // We don't need to pass all the data because the CartController will fetch it from DB
+        return redirect()->route('cartPage');
     }
 
     public function payment($orderId, $addressId)
     {
         $getOrderDetails = Order::find($orderId);
-        if ($getOrderDetails) {
-            $getOrderDetails->address_id = $addressId;
-            $getOrderDetails->update();
-            $grandTotal = $getOrderDetails->grandTotal;
-            $grandTotalInPaise = $grandTotal * 100;
-            \Stripe\Stripe::setApiKey(config(key: 'stripe.sk'));
-            $session = \Stripe\Checkout\Session::create([
-                'line_items' => [
-                    [
-                        'price_data' => [
-                            'currency' => 'inr',
-                            'product_data' => [
-                                'name' => 'Order Id : 256',
-                            ],
-                            'unit_amount' => $grandTotalInPaise, // Euro 5.00
-                        ],
-                        'quantity' => 1,
-                    ],
-                ],
-                'mode' => 'payment',
-                'success_url' => route('success'),
-            ]);
-
-            return redirect()->away($session->url);
-        } else {
+    
+        if (!$getOrderDetails) {
             return back()->with('error', 'Something went wrong !!');
         }
+    
+        $getOrderDetails->address_id = $addressId;
+        $getOrderDetails->update();
+    
+        $grandTotal = $getOrderDetails->grandTotal;
+        $grandTotalInPaise = $grandTotal * 100;
+    
+        // Retrieve user ID from session
+        $userId = session()->get('userId');
+    
+        if (!$userId) {
+            return back()->with('error', 'User not logged in.');
+        }
+    
+        // Fetch user details
+        $customer = User::find($userId);
+    
+        if (!$customer) {
+            return back()->with('error', 'User not found.');
+        }
+    
+        \Stripe\Stripe::setApiKey(config('stripe.sk'));
+
+        $session = \Stripe\Checkout\Session::create([
+            'customer_email' => $customer->email, // Required for compliance
+            'billing_address_collection' => 'required', // Ensures address is collected
+            'payment_method_types' => ['card'],
+            'line_items' => [
+                [
+                    'price_data' => [
+                        'currency' => 'inr',
+                        'product_data' => [
+                            'name' => 'Order ID: ' . $orderId,
+                        ],
+                        'unit_amount' => $grandTotalInPaise,
+                    ],
+                    'quantity' => 1,
+                ],
+            ],
+            'mode' => 'payment',
+            'success_url' => route('success', ['orderId' => $orderId]),
+            // 'cancel_url' => route('payment.cancel', ['orderId' => $orderId]),
+            'shipping_address_collection' => [ // Use this to collect shipping address
+                'allowed_countries' => ['IN'], // Restrict to India
+            ],
+        ]);
+        return redirect()->away($session->url);
+        
+    
+        return redirect()->away($session->url);
     }
+    
+    
 }

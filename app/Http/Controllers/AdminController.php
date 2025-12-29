@@ -43,4 +43,93 @@ class AdminController extends Controller
 
         return view('Admin.index', compact('totalUsers', 'totalRestaurant', 'totalEarning', 'totalEarningsPerMonth'))->with('topFiveUsers', $topFiveUsers);
     }
+
+    public function res_users(){
+        $users = User::where('role','=',2)->get();
+        return view('admin.users',compact('users'));
+    }
+
+    public function add_res_user(){
+        
+        return view('admin.add_user');
+    }
+
+    public function save_user(Request $request)
+    {
+        // Validate the incoming request
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|numeric',
+            'password' => 'required|string|min:6',
+        ]);
+
+        $role = 2;
+
+        // Create the user
+        $user = User::create([
+            'username' => $validated['name'],
+            'email' => $validated['email'],
+            'phone_number' => $validated['phone'],
+            'password' => $validated['password'],  // Encrypt the password
+            'role'=>$role,
+        ]);
+
+        // Redirect or return response
+        return redirect()->back()->with('success', 'User saved successfully!');
+    }
+
+    public function delete_user($id){
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found!');
+        }
+
+        // Delete the user
+        $user->delete();
+
+        // Redirect or return a response
+        return redirect()->route('res_users')->with('success', 'User deleted successfully!');
+    }
+
+    public function edit_user($id){
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found!');
+        }
+
+        if($user){
+            return view('admin.edit_user',compact('user'));
+        }
+    }
+
+    public function update_user($id, Request $request)
+    {
+        // Find the user by ID
+        $user = User::find($id);
+
+        if (!$user) {
+            return redirect()->back()->with('error', 'User not found!');
+        }
+
+        // Validate the incoming request (excluding password)
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'phone' => 'required|numeric',
+        ]);
+
+        // Update the user details without changing the password
+        $user->username = $validated['name'];
+        $user->email = $validated['email'];
+        $user->phone_number = $validated['phone'];
+
+        // Save the updated user
+        $user->save();
+
+        // Redirect or return a response
+        return redirect()->route('res_users')->with('success', 'User updated successfully!');
+    }
 }

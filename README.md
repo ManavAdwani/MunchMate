@@ -1,126 +1,156 @@
+# MunchMate 🍔
 
-![Logo](https://i.ibb.co/DtF4kr6/download.png)
+> A delightful, full-stack food delivery platform tailored for seamless interactions between Customers, Restaurants, and Delivery Partners.
 
-# MunchMate
+![Banner](https://i.ibb.co/1h9HcQD/screencapture-localhost-8000-2025-12-29-15-15-34.png)
 
-MunchMate is a delightful online food delivery platform that I created as a personal project using a combination of web development technologies. This project, powered by HTML, CSS, JavaScript, MySQL, and Laravel, embodies my passion for both coding and culinary experiences. 
+## 📖 About
 
-The website offers a user-friendly interface that allows you to browse through a variety of restaurants, view their menus, and customize your orders according to your preferences. With the power of Laravel and MySQL, the platform efficiently manages user accounts, order processing, and delivery information.
+**MunchMate** is an online food delivery ecosystem built to simulate real-world food ordering operations. The platform is divided into three distinct panels, each with specialized workflows:
+- **User Panel**: For browsing menus, customizing orders, and making payments.
+- **Restaurant Panel**: For managing menus, tracking incoming orders, and updating restaurant details.
+- **Delivery Panel**: For delivery partners to accept jobs and update delivery status order tracking.
 
-The website is going to have User Panel (To Order Food), Restaurant Panel (To Get the order of the food from user), Delivery Boy Panel (To Get the information about his/her delivery).
+Built with **Laravel 10** and **MySQL**, MunchMate demonstrates robust backend logic combined with a responsive, user-friendly frontend.
 
+---
 
-## Demo
+## ✨ Features
 
-www.github.com/ManavAdwani
+### 🧑‍🍳 For Customers
+- **Restaurant Discovery**: Browse a variety of restaurants and view their profiles.
+- **Dynamic Menus**: View detailed menus with images and prices.
+- **Cart & Checkout**: Seamlessly add items to cart and checkout with integrated payment (Stripe).
+- **Order Tracking**: Real-time status updates on active orders.
+- **Responsive Design**: Optimized for both desktop and mobile devices.
 
+### 🏪 For Restaurants
+- **Dashboard**: Overview of restaurant performance.
+- **Menu Management**: Add, edit, or remove menu items dynamically.
+- **Order Management**: Accept internal orders and prepare them for delivery.
+- **Location Updates**: Update restaurant availability and location.
 
-## Features
+### 🚚 For Delivery Partners
+- **Job Board**: View available delivery requests which are under 20km from his location.
+- **Status Updates**: Mark orders as 'Picked Up' or 'Delivered'.
+- **Registration**: Dedicated signup flow for new delivery partners.
 
-- Light/dark mode toggle
-- All Screen Friendly UI
-- Payment Method Integrated (Stripe Payment Method used)
-- live updates
-- User, Restaurant, Delivery Panels
+---
 
+## 🛠 Tech Stack
 
-## Screenshots
+**Backend**
+- **Framework**: Laravel 10.x
+- **Database**: MySQL
+- **Payment Processing**: Stripe API
 
-<a href="https://ibb.co/cTnKNbC"><img src="https://i.ibb.co/88Znjzd/Screenshot-from-2023-11-25-10-29-21-1.png" alt="Screenshot-from-2023-11-25-10-29-21-1" border="0"></a>
+**Frontend**
+- **Core**: HTML5, CSS3, JavaScript
+- **Styling**: Bootstrap 5, Custom CSS
+- **Bundler**: Vite
 
-## Tech Stack
+**Tools & Services**
+- **Composer**: Dependency Management
+- **Git**: Version Control
 
-**Client:** Html, Css, Js, Bootstrap
+---
 
-**Server:** MySql, Laravel
+## 🚀 Installation & Setup
 
+Follow these steps to set up the project locally.
 
-## 🚀 About Me
-I'm a full stack developer from India with the knowledge of HTML, CSS, Js, TailwindCss, Bootstrap, Laravel, Php, Mysql, React Js and etc...
+### Prerequisites
+- PHP >= 8.1
+- Composer
+- Node.js & NPM
+- MySQL
 
+### Steps
 
-## Installation
+1. **Clone the Repository**
+   ```bash
+   git clone https://github.com/ManavAdwani/MunchMate.git
+   cd MunchMate
+   ```
 
-Install Latest version of Laravel
+2. **Install PHP Dependencies**
+   ```bash
+   composer install
+   ```
 
-```bash
- composer global require laravel/installer
-```
-Then, clone this project
+3. **Install Frontend Dependencies**
+   ```bash
+   npm install
+   npm run build
+   ```
 
-```bash
-- Run git clone <link of this project>
-- Run composer install
-- Run cp .env.example .env
-- Run php artisan key:generate
-- Run php artisan migrate
-- Run php artisan serve
-- Go to link localhost:8000
-```
+4. **Environment Configuration**
+   ```bash
+   cp .env.example .env
+   ```
+   *Open the `.env` file and configure your database credentials (DB_DATABASE, DB_USERNAME, DB_PASSWORD).*
 
-And last step, Just enjoy
+5. **Generate Application Key**
+   ```bash
+   php artisan key:generate
+   ```
 
-```bash
-Demo User
-phone number - 501020291
-password - 12345
+6. **Run Migrations**
+   ```bash
+   php artisan migrate
+   ```
 
-Demo Restaurant
-phone number - 123456789
-password - 12345
+7. **Serve the Application**
+   ```bash
+   php artisan serve
+   ```
+   The application will be available at `http://localhost:8000`.
 
-Demo Delivery 
-phone number - 909899999
-password - 12345
+---
 
-```
-## Roadmap
+## 🔐 Credentials (Demo)
 
-- Add Restaurant Panel
+Use these credentials to test the different user roles.
 
-- Make Everything Dynamic (Right now Everything is static)
+| Role | Phone | Password |
+| :--- | :--- | :--- |
+| **User** | `501020291` | `12345` |
+| **Restaurant** | `123456789` | `12345` |
+| **Delivery** | `909899999` | `12345` |
 
-- Show Menu and all from the database
+---
 
-- Make Delivery Panel
+## 📂 Project Structure
 
-- At last change ui (if needed)
+- `app/Models` - Eloquent models (User, Restaurant, Order, etc.)
+- `app/Http/Controllers` - Application logic handling requests.
+- `resources/views` - Blade templates for the UI.
+- `routes/web.php` - Web route definitions.
+- `database/migrations` - Database schema definitions.
 
+---
 
-## FAQ
+## 🤝 Contributing
 
-#### Are we going to launch this in market as a company ?
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-No, since this is a personal project I am not planning to launch this in market, this is just for my portfolio.
+1. Fork the repository.
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`).
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`).
+4. Push to the branch (`git push origin feature/AmazingFeature`).
+5. Open a Pull Request.
 
-#### Which tech is used in this ?
+---
 
-For Front-end i have used - Html, Css, Js, Bootstrap
-For Ui/Ux - I have some figma templates
-For Backend - MySql, Laravel
+## 👤 Author
 
+**Manav Adwani**
+- Github: [@ManavAdwani](https://github.com/ManavAdwani)
+- Portfolio: [katherineoelsner.com](https://katherineoelsner.com/)
+- LinkedIn: [LinkedIn](https://www.linkedin.com/)
 
-## Support
+---
 
-For support, email manavadwani00@gmail.com or join our Slack channel.
+## 📄 License
 
-
-## Contributing
-
-Contributions are always welcome!
-
-See `contributing.md` for ways to get started.
-
-Please adhere to this project's `code of conduct`.
-
-
-## Authors
-
-- [@ManavAdwani](https://www.github.com/ManavAdwani)
-
-
-## 🔗 Links
-[![portfolio](https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white)](https://katherineoelsner.com/)
-[![linkedin](https://img.shields.io/badge/linkedin-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/)
-[![twitter](https://img.shields.io/badge/twitter-1DA1F2?style=for-the-badge&logo=twitter&logoColor=white)](https://twitter.com/)
-
+This project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).

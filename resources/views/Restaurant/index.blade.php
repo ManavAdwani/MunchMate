@@ -17,7 +17,63 @@
     @include('navbar.RestaurantNav');
     <div class="container" style="margin-top: 100px">
         <h1 style="font-size: 32px;margin-bottom:2rem;">Welcome, {{$name}}</h1>
+        
+        <!-- Update Location Form -->
+        <div class="card mb-4 p-3 shadow-sm">
+            <h5 class="mb-3">Update Restaurant Location</h5>
+            <form action="{{ route('updateResLocation') }}" method="POST" class="row g-3 align-items-center">
+                @csrf
+                <div class="col-auto" style="flex-grow: 1;">
+                    <div class="input-group">
+                        <input type="text" name="location" id="updateLocationInput" class="form-control" placeholder="Enter Full Address (e.g. Pune, MH)" value="{{ $location }}" required>
+                        <button type="button" class="btn btn-outline-secondary" id="getLocationUpdateBtn" onclick="getLocationForUpdate()">Locate Me</button>
+                    </div>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-primary">Update Location</button>
+                </div>
+            </form>
+        </div>
     </div>
+    <script>
+        function getLocationForUpdate() {
+            const btn = document.getElementById('getLocationUpdateBtn');
+            if (navigator.geolocation) {
+                btn.innerHTML = 'Locating...';
+                btn.disabled = true;
+                const options = { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 };
+                navigator.geolocation.getCurrentPosition(
+                    (pos) => showPositionForUpdate(pos), 
+                    (err) => { alert("Error: " + err.message); btn.innerHTML = 'Locate Me'; btn.disabled = false; }, 
+                    options
+                );
+            } else { 
+                alert("Geolocation not supported");
+            }
+        }
+
+        function showPositionForUpdate(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                .then(res => res.json())
+                .then(data => {
+                    const address = data.address;
+                    if(address) {
+                        let parts = [];
+                        if(address.road) parts.push(address.road);
+                        if(address.suburb) parts.push(address.suburb);
+                        if(address.neighbourhood) parts.push(address.neighbourhood);
+                        if(address.city || address.town) parts.push(address.city || address.town);
+                        if(address.state) parts.push(address.state);
+                        
+                        document.getElementById('updateLocationInput').value = parts.join(', ');
+                    }
+                    document.getElementById('getLocationUpdateBtn').innerHTML = 'Locate Me';
+                    document.getElementById('getLocationUpdateBtn').disabled = false;
+                });
+        }
+    </script>
     <div class="container">
         <div class="row">
             <div class="col-sm-4 mt-3">
@@ -60,6 +116,11 @@
             {{session()->get('status')}}
         </div>
         @endif
+        @if(session()->get('error'))
+        <div class="alert alert-danger" role="alert">
+            {{session()->get('error')}}
+        </div>
+        @endif
     </div>
     <div class="container mt-5"
         style="box-shadow: rgba(50, 50, 93, 0.25) 0px 2px 5px -1px, rgba(0, 0, 0, 0.3) 0px 1px 3px -1px;border-radius:20px">
@@ -72,88 +133,92 @@
                 <hr>
             </div>
             <div class="body">
-                <table class="table" id="ordersTable">
-                    <thead class="thead-dark">
+                <table class="table table-bordered">
+                    <thead>
                         <tr>
                             <th>Order ID</th>
-                            <th>User Name</th>
-                            <th>Description</th>
+                            <th>User</th>
+                            <th>Items</th>
                             <th>Price</th>
-                            <th>Total Price</th>
+                            <th>Total</th>
                             <th>Status</th>
-                            <th>Actions</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($allOrderedProducts as $orderDetails)
-                        <tr class="order-row">
-                            <td>{{ $orderDetails['order']->id }}</td>
-                            <td>{{ $orderDetails['userName'] }}</td>
-                            <td>{{ $orderDetails['orderedProducts'][0]->description ?? 'NULL' }}</td>
-                            <td>&nbsp;&nbsp;₹ {{ $orderDetails['orderedProducts'][0]->price ?? 0 }}</td>
-                            {{-- <td>{{ $orderDetails['orderedProducts'][0]->quantity }}</td> --}}
-                            <td>&nbsp;&nbsp;&nbsp;₹ {{ $orderDetails['orderedProducts'][0]->totalPrice ?? 0 }}</td>
-                            <td><span class="badge text-bg-success">{{ $orderDetails['order']->status }}</span></td>
-                            <td >
-                                <button class="btn btn-info view-details"
-                                    data-order-id="{{ $orderDetails['order']->id }}">
-                                    View Details
-                                </button>
-                                {{-- 1 - Order Received
-                                2 - Order Accepted
-                                3 - Order Ready for deliver
-                                4 - Order picked up
-                                5 - Order delivered
-                                0 - Order Rejected--}}
-                                @php
-                                $getStatus =
-                                App\Models\Order::where('id',$orderDetails['order']->id)->select('status')->first();
-                                $status = $getStatus->status ?? 0;
+                        @foreach($initialOrders as $orderDetails)
+                            <tr class="order-row">
+                                <td>{{ $orderDetails->id }}</td>
+                                <td>{{ $orderDetails->userName }}</td>
+                                <td>
+                                    @php
+                                        $dishes = explode(',', $orderDetails->dish_names);
+                                        echo implode('<br>', $dishes);
+                                    @endphp
+                                </td>
+                                <td>
+                                    @php
+                                        $prices = explode(',', $orderDetails->prices);
+                                        echo implode('<br>', array_map(fn($price) => '₹ '.$price, $prices));
+                                    @endphp
+                                </td>
+                                <td>₹ {{ $orderDetails->grandTotal }}</td>
+                                <td><span class="badge text-bg-success">{{ $orderDetails->status }}</span></td>
+                                <td>
+                                    <button class="btn btn-info view-details" data-order-id="{{ $orderDetails->id }}">
+                                        View Details
+                                    </button>
+                                    @php
+                                    $status = $orderDetails->status ?? 0;
                                 @endphp
-                                @if($status == "Order Recieved")
-                                <a class="btn btn-danger view-details"
-                                    href="{{route('changeOrderStatus',[$orderDetails['order']->id,2])}}">
-                                    Accept Order
-                                </a>
+                    
+                                @if($status == "Order Received")
+                                    <a class="btn btn-danger view-details" href="{{route('changeOrderStatus',[$orderDetails->id,2])}}">
+                                        Accept Order
+                                    </a>
                                 @elseif($status == "Order Accepted")
-                                <a class="btn btn-danger view-details"
-                                    href="{{route('changeOrderStatus',[$orderDetails['order']->id,3])}}">
-                                    Order Ready for Pickup
-                                </a>
-                                @elseif($status == "Order Ready for pickup")
-                                <a class="btn btn-danger view-details"
-                                    href="{{route('changeOrderStatus',[$orderDetails['order']->id,4])}}">
-                                    Order picked up
-                                </a>
+                                    <a class="btn btn-danger view-details" href="{{route('changeOrderStatus',[$orderDetails->id,3])}}">
+                                        Order Ready for Pickup
+                                    </a>
+                                @elseif($status == "Order Ready for Pickup")
+                                    <a class="btn btn-danger view-details" href="{{route('changeOrderStatus',[$orderDetails->id,4])}}">
+                                        Order Picked Up
+                                    </a>
                                 @endif
-                            </td>
-                        </tr>
-                        <tr class="order-details" id="details-{{ $orderDetails['order']->id }}" style="display: none;">
-                            <td colspan="7">
-                                <!-- Details of the order -->
-                                <!-- You can customize this part based on your needs -->
-                                <div class="alert alert-primary" role="alert">
-                                    Order Details for Order ID {{ $orderDetails['order']->id }}
-                                </div>
-                                <table class="table  table-bordered">
-                                    <tr>
-                                        <th>Dish Name</th>
-                                        <th>Quantity</th>
-                                    </tr>
-                                    @foreach($orderDetails['orderedProducts'] as $product)
-                                    <tbody>
-                                        <tr>
-                                            <td>{{ $product->dish_name }}</td>
-                                            <td>{{ $orderDetails['quantities'][$product->id] }} items</td>
-                                        </tr>
-                                    </tbody>
-                                    @endforeach
-                                </table>
-                            </td>
-                        </tr>
+                                </td>
+                                
+                            </tr>
+                
+                            <!-- Hidden Order Details Row -->
+                            <tr id="details-{{ $orderDetails->id }}" style="display: none;">
+                                <td colspan="7">
+                                    <div class="order-details-content">
+                                        <strong>Order ID:</strong> {{ $orderDetails->id }} <br>
+                                        <strong>User:</strong> {{ $orderDetails->userName }} <br>
+                                        <strong>Status:</strong> {{ $orderDetails->status }} <br>
+                                        <hr>
+                                        <strong>Ordered Items:</strong>
+                                        <ul>
+                                            @php
+                                                $dishes = explode(',', $orderDetails->dish_names);
+                                                $quantities = explode(',', $orderDetails->quantities);
+                                                $prices = explode(',', $orderDetails->prices);
+                                            @endphp
+                                            @foreach($dishes as $index => $dish)
+                                                <li>
+                                                    <strong>{{ $dish }}</strong> (x{{ $quantities[$index] ?? 1 }}) - ₹{{ $prices[$index] ?? 0 }}
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                        <hr>
+                                        <strong>Total Price:</strong> ₹ {{ $orderDetails->grandTotal }}
+                                    </div>
+                                </td>
+                            </tr>
                         @endforeach
                     </tbody>
                 </table>
+                
 
             </div>
         </div>
@@ -188,8 +253,10 @@
 
     <script>
         $(document).ready(function() {
+       
             $('.view-details').on('click', function() {
                 var orderId = $(this).data('order-id');
+                // alert('helo');
                 $('#details-' + orderId).toggle();
             });
         });

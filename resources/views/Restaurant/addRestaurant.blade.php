@@ -46,6 +46,16 @@
                     </div>
                     <div class="row align-items-center mt-4">
                         <div class="col">
+                            <div class="input-group">
+                                <input type="text" name="location" id="inputLocation" class="form-control" placeholder="Restaurant Address (e.g. M.G. Road, Pune)">
+                                <div class="input-group-append">
+                                    <button type="button" class="btn btn-outline-secondary" id="getLocationBtn" onclick="getLocation()">Locate Me</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row align-items-center mt-4">
+                        <div class="col">
                             <input type="number" name="phone" class="form-control" placeholder="Restaurant Phone Number">
                         </div>
                     </div>
@@ -83,6 +93,61 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
-</body>
+    <script>
+        function getLocation() {
+            const btn = document.getElementById('getLocationBtn');
+            if (navigator.geolocation) {
+                btn.innerHTML = 'Locating...';
+                btn.disabled = true;
+                const options = { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 };
+                navigator.geolocation.getCurrentPosition(showPosition, showError, options);
+            } else { 
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
 
+        function showPosition(position) {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                .then(response => response.json())
+                .then(data => {
+                    const address = data.address;
+                    if(!address) {
+                        alert("Could not retrieve address.");
+                        resetButton();
+                        return;
+                    }
+                    
+                    // Construct full address string
+                    let parts = [];
+                    if(address.road) parts.push(address.road);
+                    if(address.suburb) parts.push(address.suburb);
+                    if(address.neighbourhood) parts.push(address.neighbourhood);
+                    if(address.city || address.town || address.village) parts.push(address.city || address.town || address.village);
+                    if(address.state) parts.push(address.state);
+                    if(address.postcode) parts.push(address.postcode);
+
+                    document.getElementById('inputLocation').value = parts.join(', ');
+                    resetButton();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    resetButton();
+                });
+        }
+
+        function showError(error) {
+            alert("Error getting location: " + error.message);
+            resetButton();
+        }
+
+        function resetButton() {
+            const btn = document.getElementById('getLocationBtn');
+            btn.innerHTML = 'Locate Me';
+            btn.disabled = false;
+        }
+    </script>
+</body>
 </html>

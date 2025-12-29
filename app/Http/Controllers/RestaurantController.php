@@ -17,112 +17,62 @@ class RestaurantController extends Controller
     public function index()
     {
         $userId = session()->get('userId');
-        $getName = User::where('id', $userId)->select('username')->first();
-        $name = $getName->username;
-        $getResId = Restaurant::where('owner', $userId)->select('name', 'id')->first();
-        $resId = $getResId->id;
 
+        // Get restaurant details
+        $getRes = Restaurant::where('owner', $userId)->select('name', 'id', 'location')->first();
+        $resId = $getRes->id ?? 0;
+        $name = $getRes->name ?? '';
+        $location = $getRes->location ?? '';
 
         // Check if it's an AJAX request
         if (request()->ajax()) {
-            // If it's an AJAX request, fetch new orders and return JSON response
-            $newOrders = Order::where('restaurant_id', $resId)->get();
-            $allOrderedProducts = [];
+            $newOrders = DB::table('orders')
+                ->select(
+                    'orders.id',
+                    'orders.status',
+                    'orders.user_id',
+                    'users.username as userName',
+                    'orders.grandTotal',
+                    DB::raw('GROUP_CONCAT(order_items.product_id) as product_ids'),
+                    DB::raw('GROUP_CONCAT(order_items.quantity) as quantities'),
+                    DB::raw('GROUP_CONCAT(restaurant_menus.dish_name) as dish_names'),
+                    DB::raw('GROUP_CONCAT(restaurant_menus.price) as prices')
+                )
+                ->join('users', 'users.id', '=', 'orders.user_id')
+                ->join('order_items', 'order_items.order_id', '=', 'orders.id')
+                ->join('restaurant_menus', 'restaurant_menus.id', '=', 'order_items.product_id')
+                ->where('orders.restaurant_id', $resId)
+                ->groupBy('orders.id', 'orders.status', 'orders.user_id', 'users.username', 'orders.grandTotal')
+                ->orderByDesc('orders.created_at')
+                ->get();
 
-            foreach ($newOrders as $order) {
-                $userCart = Cart::where('user_id', $order->user_id)
-                    ->where('restaurant_id', $resId)
-                    ->pluck('product_id')
-                    ->toArray();
-                $userDetails = DB::table('users')
-                    ->where('id', $order->user_id)
-                    ->select('username') // Change this based on your actual column name
-                    ->first();
-                $userName = $userDetails->username; // Change this based on your actual column name
-
-                // Retrieve products from the restaurant_menus table based on the product_id
-                $orderedProducts = RestaurantMenu::whereIn('id', $userCart)->get();
-                $orderTotalPrice = 0;
-
-                // Calculate total price for each ordered product
-                foreach ($orderedProducts as $product) {
-                    $quantity = Cart::where('user_id', $order->user_id)
-                        ->where('restaurant_id', $resId)
-                        ->where('product_id', $product->id)
-                        ->value('quantity');
-
-                    // Assuming your RestaurantMenu model has a 'price' attribute
-                    $totalPrice = $product->price * $quantity;
-
-                    // Add the total price for the current product to the order's total
-                    $orderTotalPrice += $totalPrice;
-
-                    // You can use $totalPrice as needed for each product
-                    $product->totalPrice = $totalPrice;
-                }
-
-                // Store ordered products and total price in an array
-                $allOrderedProducts[] = [
-                    'order' => $order,
-                    'userName' => $userName,
-                    'orderedProducts' => $orderedProducts,
-                    'orderTotalPrice' => $orderTotalPrice,
-                ];
-                // dd($allOrderedProducts);
-            }
-            return response()->json(['newOrders' => $newOrders]);
+            return response()->json(['orders' => $newOrders]);
         }
 
-        // If it's not an AJAX request, render the initial view with existing orders
-        $initialOrders = Order::where('restaurant_id', $resId)->paginate(5);
-        $allOrderedProducts = [];
+        // Fetch orders for initial page load (non-AJAX)
+        $initialOrders = DB::table('orders')
+            ->select(
+                'orders.id',
+                'orders.status',
+                'orders.user_id',
+                'users.username as userName',
+                'orders.grandTotal',
+                DB::raw('GROUP_CONCAT(order_items.product_id) as product_ids'),
+                DB::raw('GROUP_CONCAT(order_items.quantity) as quantities'),
+                DB::raw('GROUP_CONCAT(restaurant_menus.dish_name) as dish_names'),
+                DB::raw('GROUP_CONCAT(restaurant_menus.price) as prices')
+            )
+            ->join('users', 'users.id', '=', 'orders.user_id')
+            ->join('order_items', 'order_items.order_id', '=', 'orders.id')
+            ->join('restaurant_menus', 'restaurant_menus.id', '=', 'order_items.product_id')
+            ->where('orders.restaurant_id', $resId)
+            ->groupBy('orders.id', 'orders.status', 'orders.user_id', 'users.username', 'orders.grandTotal')
+            ->orderByDesc('orders.created_at')
+            ->paginate(5);
 
-        foreach ($initialOrders as $order) {
-            $userCart = Cart::where('user_id', $order->user_id)
-                ->where('restaurant_id', $resId)
-                ->pluck('product_id')
-                ->toArray();
-            $userDetails = DB::table('users')
-                ->where('id', $order->user_id)
-                ->select('username') // Change this based on your actual column name
-                ->first();
-            $userName = $userDetails->username; // Change this based on your actual column name
-
-            // Retrieve products from the restaurant_menus table based on the product_id
-            $orderedProducts = RestaurantMenu::whereIn('id', $userCart)->get();
-            $orderTotalPrice = 0;
-            $quantities = [];
-
-            // Calculate total price for each ordered product
-            foreach ($orderedProducts as $product) {
-                $quantity = Cart::where('user_id', $order->user_id)
-                    ->where('restaurant_id', $resId)
-                    ->where('product_id', $product->id)
-                    ->value('quantity');
-
-                // Assuming your RestaurantMenu model has a 'price' attribute
-                $totalPrice = $product->price * $quantity;
-                $quantities[$product->id] = $quantity ?? 0;
-                // Add the total price for the current product to the order's total
-                $orderTotalPrice += $totalPrice;
-
-                // You can use $totalPrice as needed for each product
-                $product->totalPrice = $totalPrice;
-            }
-
-            // Store ordered products and total price in an array
-            $allOrderedProducts[] = [
-                'order' => $order,
-                'userName' => $userName,
-                'orderedProducts' => $orderedProducts,
-                'orderTotalPrice' => $orderTotalPrice,
-                'quantities' => $quantities
-            ];
-        }
-        // dd($allOrderedProducts);
-
+        // Calculate total earnings
         $totalEarnings = Order::where('restaurant_id', $resId)
-            ->where('status', 'Delivered')
+            // ->where('status', 'Delivered')
             ->select(
                 DB::raw('YEAR(created_at) as year'),
                 DB::raw('MONTH(created_at) as month'),
@@ -130,18 +80,19 @@ class RestaurantController extends Controller
             )
             ->groupBy('year', 'month')
             ->get();
+
         $totalEarnings = $totalEarnings->map(function ($earning) {
             $earning->month = Carbon::createFromDate(null, $earning->month, null)->monthName;
             return $earning;
         });
 
-        $earningThisMonth = Order::where('restaurant_id', $resId)
-            ->where('status', 'Delivered')
-            ->sum('grandTotal');
+        $earningThisMonth = Order::where('restaurant_id', $resId)->sum('grandTotal');
+        $totalOrders = Order::where('restaurant_id', $resId)->count();
 
-        $totalOrders =  Order::where('restaurant_id', $resId)->count();
-        return view('Restaurant.index', compact('name', 'allOrderedProducts', 'resId', 'totalEarnings', 'earningThisMonth', 'totalOrders'))->with('userId', $userId);
+        return view('Restaurant.index', compact('name', 'location', 'initialOrders', 'resId', 'totalEarnings', 'earningThisMonth', 'totalOrders'))
+            ->with('userId', $userId);
     }
+
 
 
     public function addRestaurant()
@@ -161,13 +112,14 @@ class RestaurantController extends Controller
         $res = new Restaurant;
         $res->name = $request->input('name');
         $res->email = $request->input('email');
+        $res->location = $request->input('location');
         $res->phone = $request->input('phone');
         $pass = $request->input('pass');
         $cpass = $request->input('cpass');
         $res->owner = session()->get('userId');
         if ($pass == $cpass) {
             $res->password = $pass;
-            $res->owner = 1;
+            $res->owner = session()->get('userId');
             $res->save();
             session()->put('userId', $res->owner);
             session()->put('resId', $res->id);
@@ -265,9 +217,9 @@ class RestaurantController extends Controller
             }
         }
 
-        
 
-        return back()->with('success','Item added successfully !');
+
+        return back()->with('success', 'Item added successfully !');
         //     ->with('success', 'Menu uploaded!');
         // return back();
         // return back();
@@ -319,8 +271,16 @@ class RestaurantController extends Controller
     public function restaurantMenu()
     {
         $resId = session()->get('resId');
+        $userId = session()->get('userId');
+        // dd($resId);
+        $restaurant = Restaurant::where('owner', $userId)->select('id')->first();
 
-        $getDetails = RestaurantMenu::where('restaurant_id', $resId)->get()->toArray();
+        if ($restaurant) {
+            $getDetails = RestaurantMenu::where('restaurant_id', $restaurant->id)->get()->toArray();
+        } else {
+            $getDetails = []; // If no restaurant is found, return an empty array
+        }
+
         return view('Restaurant.allProducts', compact('getDetails'));
     }
 
@@ -331,9 +291,24 @@ class RestaurantController extends Controller
         if ($item) {
             $item->delete();
             return back()->with('success', 'Item deleted Successfully !');
+        } else {
+            return back()->with('error', 'Some Error occured please try again letter');
         }
-        else{
-            return back()->with('error','Some Error occured please try again letter');
+    }
+
+    public function updateLocation(Request $request)
+    {
+        $request->validate(['location' => 'required']);
+        
+        $userId = session()->get('userId');
+        $restaurant = Restaurant::where('owner', $userId)->first();
+
+        if ($restaurant) {
+            $restaurant->location = $request->location;
+            $restaurant->save();
+            return back()->with('status', 'Location Updated Successfully!');
         }
+        
+        return back()->with('error', 'Restaurant not found for this user.');
     }
 }

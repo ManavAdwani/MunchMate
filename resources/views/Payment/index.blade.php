@@ -66,8 +66,12 @@
                     </div>
                     <div class="col-12 mt-3">
                         <label for="inputAddress" class="form-label">Address</label>
-                        <input type="text" name="address" class="form-control" id="inputAddress"
-                            placeholder="Enter address">
+                        <div class="input-group">
+                            <input type="text" name="address" class="form-control" id="inputAddress" placeholder="Enter address">
+                            <button type="button" class="btn btn-outline-primary" id="getLocationBtn" onclick="getLocation()">
+                                <span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">my_location</span> Locate Me
+                            </button>
+                        </div>
                     </div>
                     <div class="col-12 mt-3">
                         <label for="inputAddress2" class="form-label">Address 2</label>
@@ -83,9 +87,7 @@
                     </div>
                     <div class="col-md-6 mt-3">
                         <label for="inputCity" class="form-label">City</label>
-                        <select id="inputCity" name="city" class="form-select">
-                            <option value="" selected disabled>Select City</option>
-                        </select>
+                        <input type="text" id="inputCity" name="city" class="form-control" placeholder="Enter City">
                     </div>
                     <div class="col-md-2 mt-3">
                         <label for="inputZip" class="form-label">Zip</label>
@@ -152,6 +154,114 @@
             option.text = stateName;
             inputState.add(option);
         });
+
+        // Geolocation Logic
+        function getLocation() {
+            const btn = document.getElementById('getLocationBtn');
+            if (navigator.geolocation) {
+                btn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Locating...';
+                btn.disabled = true;
+
+                // Request high accuracy to avoid IP-based location issues
+                const options = {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                };
+
+                navigator.geolocation.getCurrentPosition(showPosition, showError, options);
+            } else { 
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+
+        function showPosition(position) {
+            console.log("Location fetched:", position.coords.latitude, position.coords.longitude);
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            
+            // Call Nominatim API for reverse geocoding
+            fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("Nominatim Data:", data);
+                    const address = data.address;
+                    
+                    if(!address) {
+                        alert("Could not retrieve address from coordinates.");
+                        resetButton();
+                        return;
+                    }
+
+                    // Populate Address
+                    let addrPart = [];
+                    if(address.road) addrPart.push(address.road);
+                    if(address.suburb) addrPart.push(address.suburb);
+                    if(address.neighbourhood) addrPart.push(address.neighbourhood);
+                    if(address.residential) addrPart.push(address.residential);
+                    
+                    const addressField = document.getElementById('inputAddress');
+                    addressField.value = addrPart.join(', ');
+
+                    // Populate Address 2 (Building/House)
+                    let addr2Part = [];
+                    if(address.house_number) addr2Part.push(address.house_number);
+                    if(address.building) addr2Part.push(address.building);
+                    if(address.apartment) addr2Part.push(address.apartment);
+                    
+                    document.getElementById('inputAddress2').value = addr2Part.join(', ');
+
+                    // Populate City (Prioritize city, then town, then other levels)
+                    const city = address.city || address.town || address.village || address.municipality || address.county;
+                    if(city) document.getElementById('inputCity').value = city;
+
+                    // Populate Zip
+                    if(address.postcode) document.getElementById('inputZip').value = address.postcode;
+
+                    // Populate State
+                    if(address.state) {
+                        const stateName = address.state;
+                        // Find key matching the state name
+                        const stateCode = Object.keys(indianStates).find(key => indianStates[key].toLowerCase() === stateName.toLowerCase());
+                        if(stateCode) {
+                            document.getElementById('inputState').value = stateCode;
+                        }
+                    }
+                    
+                    // Reset button
+                    resetButton();
+                })
+                .catch(error => {
+                    console.error('Error fetching address:', error);
+                    alert('Unable to retrieve address details.');
+                    resetButton();
+                });
+        }
+
+        function showError(error) {
+            console.error("Geolocation Error:", error);
+            switch(error.code) {
+                case error.PERMISSION_DENIED:
+                    alert("User denied the request for Geolocation. Please allow location access in your browser settings.");
+                    break;
+                case error.POSITION_UNAVAILABLE:
+                    alert("Location information is unavailable. Try again.");
+                    break;
+                case error.TIMEOUT:
+                    alert("The request to get user location timed out.");
+                    break;
+                case error.UNKNOWN_ERROR:
+                    alert("An unknown error occurred.");
+                    break;
+            }
+            resetButton();
+        }
+
+        function resetButton() {
+            const btn = document.getElementById('getLocationBtn');
+            btn.innerHTML = '<span class="material-symbols-outlined" style="font-size: 18px; vertical-align: middle;">my_location</span> Locate Me';
+            btn.disabled = false;
+        }
     </script>
 </body>
 

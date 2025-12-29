@@ -44,18 +44,16 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ml-auto py-4 py-md-0">
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                    <a class="nav-link" href="#" role="button" aria-haspopup="true"
+                                    <a class="nav-link" href="{{route('admin-panel')}}" role="button" aria-haspopup="true"
                                         aria-expanded="false">Dashboard</a>
                                 </li>
+                                {{-- <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
+                                    <a class="nav-link" href="{{route('restaurant')}}">Restaurants</a>
+                                </li> --}}
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                    <a class="nav-link" href="#">Restaurants</a>
+                                    <a class="nav-link" href="{{route('res_users')}}">Users</a>
                                 </li>
-                                <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                    <a class="nav-link" href="#">Users</a>
-                                </li>
-                                <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                    <a class="nav-link" href="{{route('yourOrders')}}">Orders</a>
-                                </li>
+                               
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                                     <a class="nav-link" href="#"><span class="material-symbols-outlined">
                                             logout

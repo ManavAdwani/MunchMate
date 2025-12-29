@@ -33,9 +33,17 @@
                                     <a class="nav-link" href="{{route('indexpage')}}" role="button" aria-haspopup="true"
                                         aria-expanded="false">Dashboard</a>
                                 </li>
+                                @php
+                                $userId = session()->get('userId'); 
+                                $isRestaurantOwner = DB::table('restaurants')->where('owner', $userId)->exists();
+                            @endphp
+                            
+                            @if(!$isRestaurantOwner)
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
-                                    <a class="nav-link" href="{{route('restaurant')}}">Restaurant</a>
+                                    <a class="nav-link" href="{{ route('restaurant') }}">Restaurants</a>
                                 </li>
+                            @endif
+                            
                                 <li class="nav-item pl-4 pl-md-0 ml-0 ml-md-4">
                                     <a class="nav-link" href="{{route('menu-add')}}">Menu</a>
                                 </li>

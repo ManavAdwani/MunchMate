@@ -72,4 +72,11 @@ class UserController extends Controller
       return back()->with('error', 'User not registered');
     }
   }
+  
+  public function logout()
+  {
+      session()->forget(['username', 'userId']);
+      // session()->flush(); // alternative to clear everything
+      return redirect('/');
+  }
 }
